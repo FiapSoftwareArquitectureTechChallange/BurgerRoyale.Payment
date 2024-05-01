@@ -5,6 +5,7 @@ using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Infrastructure.Database.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 
 public class PaymentRepository : IPaymentRepository
@@ -30,5 +31,10 @@ public class PaymentRepository : IPaymentRepository
         return await _payments
             .Find(payment => true)
             .ToListAsync();
+    }
+
+    public Task<Payment?> GetById(Guid id)
+    {
+        throw new NotImplementedException();
     }
 }

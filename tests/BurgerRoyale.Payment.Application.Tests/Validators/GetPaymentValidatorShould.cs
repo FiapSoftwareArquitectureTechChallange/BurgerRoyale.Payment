@@ -1,6 +1,8 @@
 ﻿namespace BurgerRoyale.Payment.Application.Tests.Validators;
 
+using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Application.Validators;
 using BurgerRoyale.Payment.Domain.Entities;
 
 internal class GetPaymentValidatorShould

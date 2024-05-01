@@ -2,8 +2,8 @@
 
 using BurgerRoyale.Payment.Application.Contracts.Mappers;
 using BurgerRoyale.Payment.Application.Contracts.UseCases;
+using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
-using BurgerRoyale.Payment.Application.Tests.Validators;
 using BurgerRoyale.Payment.Application.UseCases;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
@@ -31,7 +31,8 @@ internal class GetPaymentShould
 
         getPayment = new GetPayment(
 			repositoryMock.Object,
-			mapperMock.Object);
+			mapperMock.Object,
+            validatorMock.Object);
     }
 
     [Test]

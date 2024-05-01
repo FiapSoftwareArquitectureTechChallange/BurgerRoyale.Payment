@@ -2,6 +2,7 @@
 
 using BurgerRoyale.Payment.Application.Contracts.Mappers;
 using BurgerRoyale.Payment.Application.Contracts.UseCases;
+using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
@@ -9,7 +10,8 @@ using System;
 
 public class GetPayment(
     IPaymentRepository repository,
-    IPaymentMapper mapper) : IGetPayment
+    IPaymentMapper mapper,
+    IGetPaymentValidator validator) : IGetPayment
 {
     public async Task<IEnumerable<GetPaymentResponse>> GetAsync()
     {
@@ -22,6 +24,16 @@ public class GetPayment(
     {
         Payment? payment = await repository.GetById(paymentId);
 
-        return mapper.Map(payment);
+        if (RequestIsInvalid(payment, out GetPaymentResponse invalidResponse))
+        {
+            return invalidResponse;
+        }
+
+        return mapper.Map(payment!);
+    }
+
+    private bool RequestIsInvalid(Payment? payment, out GetPaymentResponse invalidResponse)
+    {
+        return validator.IsInvalid(payment, out invalidResponse);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.Validators;
+﻿namespace BurgerRoyale.Payment.Application.Contracts.Validators;
 
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Entities;

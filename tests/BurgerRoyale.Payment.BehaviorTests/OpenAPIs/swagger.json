@@ -1,117 +1,403 @@
-<!-- HTML for static distribution bundle build -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Swagger UI</title>
-    <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
-    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
-    <style>
-
-        html {
-            box-sizing: border-box;
-            overflow: -moz-scrollbars-vertical;
-            overflow-y: scroll;
-        }
-
-        *,
-        *:before,
-        *:after {
-            box-sizing: inherit;
-        }
-
-        body {
-            margin: 0;
-            background: #fafafa;
-        }
-    </style>
-    
-</head>
-
-<body>
-    <div id="swagger-ui"></div>
-
-    <!-- Workaround for https://github.com/swagger-api/swagger-editor/issues/1371 -->
-    <script>
-        if (window.navigator.userAgent.indexOf("Edge") > -1) {
-            console.log("Removing native Edge fetch in favor of swagger-ui's polyfill")
-            window.fetch = undefined;
-        }
-    </script>
-
-    <script src="./swagger-ui-bundle.js"></script>
-    <script src="./swagger-ui-standalone-preset.js"></script>
-    <script>
-        /* Source: https://gist.github.com/lamberta/3768814
-         * Parse a string function definition and return a function object. Does not use eval.
-         * @param {string} str
-         * @return {function}
-         *
-         * Example:
-         *  var f = function (x, y) { return x * y; };
-         *  var g = parseFunction(f.toString());
-         *  g(33, 3); //=> 99
-         */
-        function parseFunction(str) {
-            if (!str) return void (0);
-
-            var fn_body_idx = str.indexOf('{'),
-                fn_body = str.substring(fn_body_idx + 1, str.lastIndexOf('}')),
-                fn_declare = str.substring(0, fn_body_idx),
-                fn_params = fn_declare.substring(fn_declare.indexOf('(') + 1, fn_declare.lastIndexOf(')')),
-                args = fn_params.split(',');
-
-            args.push(fn_body);
-
-            function Fn() {
-                return Function.apply(this, args);
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BurgerRoyale.Payment.API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Payment": {
+      "get": {
+        "tags": [
+          "GetPayment"
+        ],
+        "summary": "Get payments",
+        "description": "Get all payments.",
+        "operationId": "GetPayments",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentResponse"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentResponse"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentResponse"
+                  }
+                }
+              }
             }
-            Fn.prototype = Function.prototype;
-
-            return new Fn();
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
         }
-
-        window.onload = function () {
-            var configObject = JSON.parse('{"urls":[{"url":"v1/swagger.json","name":"BurgerRoyale.Payment.API v1"}],"deepLinking":false,"persistAuthorization":false,"displayOperationId":false,"defaultModelsExpandDepth":1,"defaultModelExpandDepth":1,"defaultModelRendering":"example","displayRequestDuration":false,"docExpansion":"list","showExtensions":false,"showCommonExtensions":false,"supportedSubmitMethods":["get","put","post","delete","options","head","patch","trace"],"tryItOutEnabled":false}');
-            var oauthConfigObject = JSON.parse('{"scopeSeparator":" ","scopes":[],"useBasicAuthenticationWithAccessCodeGrant":false,"usePkceWithAuthorizationCodeGrant":false}');
-
-            // Workaround for https://github.com/swagger-api/swagger-ui/issues/5945
-            configObject.urls.forEach(function (item) {
-                if (item.url.startsWith("http") || item.url.startsWith("/")) return;
-                item.url = window.location.href.replace("index.html", item.url).split('#')[0];
-            });
-
-            // If validatorUrl is not explicitly provided, disable the feature by setting to null
-            if (!configObject.hasOwnProperty("validatorUrl"))
-                configObject.validatorUrl = null
-
-            // If oauth2RedirectUrl isn't specified, use the built-in default
-            if (!configObject.hasOwnProperty("oauth2RedirectUrl"))
-                configObject.oauth2RedirectUrl = (new URL("oauth2-redirect.html", window.location.href)).href;
-
-            // Apply mandatory parameters
-            configObject.dom_id = "#swagger-ui";
-            configObject.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
-            configObject.layout = "StandaloneLayout";
-
-            // Parse and add interceptor functions
-            var interceptors = JSON.parse('{"RequestInterceptorFunction":null,"ResponseInterceptorFunction":null}');
-            if (interceptors.RequestInterceptorFunction)
-                configObject.requestInterceptor = parseFunction(interceptors.RequestInterceptorFunction);
-            if (interceptors.ResponseInterceptorFunction)
-                configObject.responseInterceptor = parseFunction(interceptors.ResponseInterceptorFunction);
-
-            // Begin Swagger UI call region
-
-            const ui = SwaggerUIBundle(configObject);
-
-            ui.initOAuth(oauthConfigObject);
-
-            // End Swagger UI call region
-
-            window.ui = ui
+      },
+      "post": {
+        "tags": [
+          "RequestPayment"
+        ],
+        "summary": "Request a payment",
+        "description": "Request payment of a specific order.",
+        "operationId": "RequestPayment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestPaymentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestPaymentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestPaymentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestPaymentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestPaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
         }
-    </script>
-</body>
-</html>
+      }
+    },
+    "/api/Payment/{id}": {
+      "get": {
+        "tags": [
+          "GetPayment"
+        ],
+        "summary": "Get payment by id",
+        "description": "Get the payment given the id.",
+        "operationId": "GetPaymentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "notifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Notification"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PaymentStatus": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "RequestPaymentRequest": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RequestPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "notifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Notification"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "isValid": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "paymentId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      }
+    }
+  }
+}

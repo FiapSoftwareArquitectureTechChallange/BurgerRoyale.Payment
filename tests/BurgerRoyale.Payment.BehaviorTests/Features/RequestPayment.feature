@@ -1,6 +1,6 @@
 ﻿Feature: RequestPayment
 
-Scenario: [scenario name]
-	Given [context]
-	When [action]
-	Then [outcome]
+Scenario: Request a Payment
+	Given I just order a product
+	When I request a payment
+	Then the payment should be created

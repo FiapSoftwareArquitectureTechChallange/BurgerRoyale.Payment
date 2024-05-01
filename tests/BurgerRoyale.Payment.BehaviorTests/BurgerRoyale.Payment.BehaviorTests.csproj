@@ -26,13 +26,12 @@
 
   <ItemGroup>
     <Folder Include="Drivers\" />
-    <Folder Include="StepDefinitions\" />
     <Folder Include="Support\" />
   </ItemGroup>
 
   <ItemGroup>
     <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" ClassName="PaymentClient">
-      <SourceUri>http://localhost:5192/swagger</SourceUri>
+      <SourceUri>http://localhost:5192/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
   </ItemGroup>
 

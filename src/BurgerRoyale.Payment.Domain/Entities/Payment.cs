@@ -6,9 +6,13 @@ namespace BurgerRoyale.Payment.Domain.Entities;
 
 public class Payment : Notifiable<Notification>, IEntityBase
 {
-    public Payment()
+    public Payment(Guid orderId, PaymentStatus status, decimal value)
     {
         Id = Guid.NewGuid();
+        OrderId = orderId;
+        Status = status;
+        Value = value;
+        Validate();
     }
 
     public Guid Id { get; private set; }
@@ -18,4 +22,12 @@ public class Payment : Notifiable<Notification>, IEntityBase
     public PaymentStatus Status { get; set; }
 
     public decimal Value { get; set; }
+
+    private void Validate()
+    {
+        if (decimal.IsNegative(Value))
+        {
+            AddNotification("Value", "The Value cannot be negative.");
+        }
+    }
 }

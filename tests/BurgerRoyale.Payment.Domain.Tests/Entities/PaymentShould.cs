@@ -1,11 +1,12 @@
 ﻿namespace BurgerRoyale.Payment.Domain.Tests.Entities;
 
 using BurgerRoyale.Payment.Domain.Entities;
+using BurgerRoyale.Payment.Domain.Enums;
 
 internal class PaymentShould
 {
     [Test]
-    public void Return_Notification_When_Does_Not_Have_Valid_Value()
+    public void Return_Notification_When_Have_Negative_Value()
     {
 		#region Arrange(Given)
 
@@ -15,10 +16,11 @@ internal class PaymentShould
 
 		#region Act(When)
 
-		var payment = new Payment
-		{
-			Value = invalidValue,
-		};
+		var payment = new Payment(
+			Guid.NewGuid(),
+			PaymentStatus.Pending,
+			invalidValue
+		);
 
         #endregion
 
@@ -34,7 +36,7 @@ internal class PaymentShould
         Assert.Multiple(() =>
 		{
 			Assert.That(payment.Notifications.First().Key, Is.EqualTo("Value"));
-			Assert.That(payment.Notifications.First().Message, Is.EqualTo("The Value is invalid."));
+			Assert.That(payment.Notifications.First().Message, Is.EqualTo("The Value cannot be negative."));
 		});
 
 		#endregion

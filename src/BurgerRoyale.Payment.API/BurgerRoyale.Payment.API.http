@@ -1,0 +1,6 @@
+@BurgerRoyale.Payment.API_HostAddress = http://localhost:5192
+
+GET {{BurgerRoyale.Payment.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

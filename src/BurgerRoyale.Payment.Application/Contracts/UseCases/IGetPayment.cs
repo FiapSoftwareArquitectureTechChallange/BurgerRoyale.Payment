@@ -5,4 +5,6 @@ namespace BurgerRoyale.Payment.Application.Contracts.UseCases;
 public interface IGetPayment
 {
     Task<IEnumerable<GetPaymentResponse>> GetAsync();
+
+    Task<GetPaymentResponse> GetByIdAsync(Guid paymentId);
 }

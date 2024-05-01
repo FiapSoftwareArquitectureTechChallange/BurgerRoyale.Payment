@@ -81,4 +81,47 @@ internal class GetPaymentShould
 
 		#endregion
 	}
+	
+	[Test]
+    public async Task Get_Payment_By_Id()
+    {
+		#region Arrange(Given)
+
+		var paymentId = Guid.NewGuid();
+
+        var payment = new Payment(
+			paymentId, 
+			Guid.NewGuid(),
+			PaymentStatus.Paid,
+			10);
+
+        repositoryMock
+            .Setup(repository => repository.GetById(paymentId))
+			.ReturnsAsync(payment);
+		
+		mapperMock
+			.Setup(mapper => mapper.Map(payment))
+			.Returns(new GetPaymentResponse
+			{
+				Id = payment.Id
+			});
+
+		#endregion
+
+		#region Act(When)
+
+		GetPaymentResponse response = await getPayment.GetByIdAsync(paymentId);
+
+		#endregion
+
+		#region Assert(Then)
+
+		Assert.That(response, Is.Not.Null);
+
+		Assert.That(response, Is.Not.Empty);
+		
+		Assert.That(response.Id, Is.EqualTo(payment.Id));
+
+		#endregion
+	}
 }

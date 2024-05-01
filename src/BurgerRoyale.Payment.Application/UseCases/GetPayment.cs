@@ -5,6 +5,7 @@ using BurgerRoyale.Payment.Application.Contracts.UseCases;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
+using System;
 
 public class GetPayment(
     IPaymentRepository repository,
@@ -15,5 +16,10 @@ public class GetPayment(
         IEnumerable<Payment> payments = await repository.Get();
 
         return payments.Select(mapper.Map);
+    }
+
+    public Task<GetPaymentResponse> GetByIdAsync(Guid paymentId)
+    {
+        throw new NotImplementedException();
     }
 }

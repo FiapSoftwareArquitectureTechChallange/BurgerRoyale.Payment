@@ -14,6 +14,15 @@ public class Payment : Notifiable<Notification>, IEntityBase
         Value = value;
         Validate();
     }
+    
+    public Payment(Guid id, Guid orderId, PaymentStatus status, decimal value)
+    {
+        Id = id;
+        OrderId = orderId;
+        Status = status;
+        Value = value;
+        Validate();
+    }
 
     public Guid Id { get; private set; }
 

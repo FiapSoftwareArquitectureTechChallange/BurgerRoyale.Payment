@@ -98,4 +98,31 @@ internal class PaymentMapperShould
 
         #endregion
     }
+    
+    [Test]
+    public void Map_Value()
+    {
+        #region Arrange(Given)
+
+        decimal value = 55.5M;
+
+        payment = new Payment(
+            Guid.NewGuid(),
+            PaymentStatus.None,
+            value);
+
+        #endregion
+
+        #region Act(When)
+
+        GetPaymentResponse paymentResponse = mapper.Map(payment);
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.That(paymentResponse.Value, Is.EqualTo(value));
+
+        #endregion
+    }
 }

@@ -9,4 +9,6 @@ public class GetPaymentResponse
     public Guid OrderId { get; set; }
 
     public PaymentStatus Status { get; set; }
+
+    public decimal Value { get; set; }
 }

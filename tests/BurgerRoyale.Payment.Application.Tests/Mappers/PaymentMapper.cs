@@ -12,6 +12,7 @@ public class PaymentMapper : IPaymentMapper
             Id = payment.Id,
             OrderId = payment.OrderId,
             Status = payment.Status,
+            Value = payment.Value,
         };
     }
 }

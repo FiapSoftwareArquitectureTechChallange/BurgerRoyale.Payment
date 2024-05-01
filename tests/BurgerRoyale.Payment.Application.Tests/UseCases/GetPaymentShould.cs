@@ -3,6 +3,7 @@
 using BurgerRoyale.Payment.Application.Contracts.Mappers;
 using BurgerRoyale.Payment.Application.Contracts.UseCases;
 using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Application.Tests.Validators;
 using BurgerRoyale.Payment.Application.UseCases;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
@@ -15,6 +16,8 @@ internal class GetPaymentShould
     
 	private Mock<IPaymentMapper> mapperMock;
     
+	private Mock<IGetPaymentValidator> validatorMock;
+    
 	private IGetPayment getPayment;
 
     [SetUp]
@@ -23,6 +26,8 @@ internal class GetPaymentShould
         repositoryMock = new Mock<IPaymentRepository>();
 
         mapperMock = new Mock<IPaymentMapper>();
+
+        validatorMock = new Mock<IGetPaymentValidator>();
 
         getPayment = new GetPayment(
 			repositoryMock.Object,
@@ -119,6 +124,34 @@ internal class GetPaymentShould
 		Assert.That(response, Is.Not.Null);
 
 		Assert.That(response.Id, Is.EqualTo(payment.Id));
+
+		#endregion
+	}
+	
+	[Test]
+    public async Task Validate_When_Get_Payment_By_Id()
+    {
+		#region Arrange(Given)
+
+		var paymentId = Guid.NewGuid();
+
+		var invalidResponse = new GetPaymentResponse();
+
+		validatorMock
+			.Setup(validator => validator.IsInvalid(It.IsAny<Payment>(), out invalidResponse))
+			.Returns(true);
+
+        #endregion
+
+        #region Act(When)
+
+        GetPaymentResponse response = await getPayment.GetByIdAsync(paymentId);
+
+		#endregion
+
+		#region Assert(Then)
+
+		Assert.That(response, Is.EqualTo(invalidResponse));
 
 		#endregion
 	}

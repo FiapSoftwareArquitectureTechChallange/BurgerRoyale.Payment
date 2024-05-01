@@ -33,8 +33,10 @@ public class PaymentRepository : IPaymentRepository
             .ToListAsync();
     }
 
-    public Task<Payment?> GetById(Guid id)
+    public async Task<Payment?> GetById(Guid id)
     {
-        throw new NotImplementedException();
+        return await _payments
+            .Find(payment => payment.Id == id)
+            .FirstOrDefaultAsync();
     }
 }

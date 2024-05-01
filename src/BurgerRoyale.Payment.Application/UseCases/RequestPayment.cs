@@ -19,7 +19,7 @@ public class RequestPayment(IPaymentRepository repository) : IRequestPayment
 
         await AddPayment(payment);
 
-        return SuccessfulResponse();
+        return SuccessfulResponse(payment);
     }
 
     private static Payment CreatePayment(RequestPaymentRequest request)
@@ -47,8 +47,11 @@ public class RequestPayment(IPaymentRepository repository) : IRequestPayment
         await repository.Add(payment);
     }
 
-    private static RequestPaymentResponse SuccessfulResponse()
+    private static RequestPaymentResponse SuccessfulResponse(Payment payment)
     {
-        return new RequestPaymentResponse();
+        return new RequestPaymentResponse
+        {
+            PaymentId = payment.Id,
+        };
     }
 }

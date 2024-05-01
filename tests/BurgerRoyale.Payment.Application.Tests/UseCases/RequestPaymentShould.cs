@@ -57,6 +57,8 @@ internal class RequestPaymentShould
 
         Assert.That(response.IsValid, Is.True);
 
+        Assert.That(response.PaymentId, Is.Not.Empty);
+
         paymentRepositoryMock
             .Verify(repository => repository.Add(It.Is<Payment>(
                 payment => 

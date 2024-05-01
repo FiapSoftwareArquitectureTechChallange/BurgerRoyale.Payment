@@ -7,6 +7,9 @@ public class PaymentMapper : IPaymentMapper
 {
     public GetPaymentResponse Map(Payment payment)
     {
-        throw new NotImplementedException();
+        return new GetPaymentResponse
+        {
+            Id = payment.Id,
+        };
     }
 }

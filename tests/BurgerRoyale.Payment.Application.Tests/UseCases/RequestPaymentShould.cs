@@ -58,7 +58,8 @@ internal class RequestPaymentShould
             .Verify(repository => repository.Add(It.Is<Payment>(
                 payment => 
                     payment.OrderId == orderId &&
-                    payment.Value == value)));
+                    payment.Value == value)),
+            Times.Once);
 
         #endregion
     }
@@ -81,7 +82,40 @@ internal class RequestPaymentShould
         paymentRepositoryMock
             .Verify(repository => repository.Add(It.Is<Payment>(
                 payment => 
-                    payment.Status == PaymentStatus.Pending)));
+                    payment.Status == PaymentStatus.Pending)), 
+            Times.Once);
+
+        #endregion
+    }
+    
+    [Test]
+    public async Task Validate_When_Request_Payment()
+    {
+        #region Arrange(Given)
+
+        decimal invalidValue = -10;
+
+        request.Value = invalidValue;
+
+        #endregion
+
+        #region Act(When)
+
+        RequestPaymentResponse response = await requestPayment.RequestAsync(request);
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.IsValid, Is.False);
+            Assert.That(response.Notifications, Is.Not.Empty);
+        });
+
+        paymentRepositoryMock
+            .Verify(repository => repository.Add(It.IsAny<Payment>()), 
+            Times.Never);
 
         #endregion
     }

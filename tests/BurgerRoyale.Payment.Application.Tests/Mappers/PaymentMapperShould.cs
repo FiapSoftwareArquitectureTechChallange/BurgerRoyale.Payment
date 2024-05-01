@@ -71,4 +71,31 @@ internal class PaymentMapperShould
 
         #endregion
     }
+    
+    [Test]
+    public void Map_Status()
+    {
+        #region Arrange(Given)
+
+        var status = PaymentStatus.Paid;
+
+        payment = new Payment(
+            Guid.NewGuid(),
+            status,
+            0);
+
+        #endregion
+
+        #region Act(When)
+
+        GetPaymentResponse paymentResponse = mapper.Map(payment);
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.That(paymentResponse.Status, Is.EqualTo(status));
+
+        #endregion
+    }
 }

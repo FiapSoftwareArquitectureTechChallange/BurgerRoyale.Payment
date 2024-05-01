@@ -9,6 +9,13 @@ public class RequestPayment(IPaymentRepository repository) : IRequestPayment
     {
         var payment = new Payment(request.OrderId, PaymentStatus.Pending, request.Value);
 
+        if (!payment.IsValid)
+        {
+            var invalidResponse = new RequestPaymentResponse();
+            invalidResponse.AddNotifications(payment.Notifications);
+            return invalidResponse;
+        }
+
         await repository.Add(payment);
 
         return new RequestPaymentResponse();

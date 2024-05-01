@@ -7,17 +7,45 @@ public class RequestPayment(IPaymentRepository repository) : IRequestPayment
 {
     public async Task<RequestPaymentResponse> RequestAsync(RequestPaymentRequest request)
     {
-        var payment = new Payment(request.OrderId, PaymentStatus.Pending, request.Value);
+        Payment payment = CreatePayment(request);
 
-        if (!payment.IsValid)
+        if (PaymentIsInvalid(payment))
         {
-            var invalidResponse = new RequestPaymentResponse();
-            invalidResponse.AddNotifications(payment.Notifications);
-            return invalidResponse;
+            return InvalidResponseWithNotifications(payment);
         }
 
-        await repository.Add(payment);
+        await AddPayment(payment);
 
+        return SuccessfulResponse();
+    }
+
+    private static Payment CreatePayment(RequestPaymentRequest request)
+    {
+        return new Payment(
+            request.OrderId, 
+            PaymentStatus.Pending, 
+            request.Value);
+    }
+
+    private static bool PaymentIsInvalid(Payment payment)
+    {
+        return !payment.IsValid;
+    }
+
+    private static RequestPaymentResponse InvalidResponseWithNotifications(Payment payment)
+    {
+        var invalidResponse = new RequestPaymentResponse();
+        invalidResponse.AddNotifications(payment.Notifications);
+        return invalidResponse;
+    }
+
+    private async Task AddPayment(Payment payment)
+    {
+        await repository.Add(payment);
+    }
+
+    private static RequestPaymentResponse SuccessfulResponse()
+    {
         return new RequestPaymentResponse();
     }
 }

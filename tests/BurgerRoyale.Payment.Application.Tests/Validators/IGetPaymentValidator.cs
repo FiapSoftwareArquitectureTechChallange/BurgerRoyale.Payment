@@ -1,9 +1,9 @@
-﻿using BurgerRoyale.Payment.Application.Models;
+﻿namespace BurgerRoyale.Payment.Application.Tests.Validators;
 
-namespace BurgerRoyale.Payment.Application.Tests.Validators
+using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Domain.Entities;
+
+public interface IGetPaymentValidator
 {
-    internal interface IGetPaymentValidator
-    {
-        bool IsInvalid(Domain.Entities.Payment? unexistingPayment, out GetPaymentResponse response);
-    }
+    bool IsInvalid(Payment? payment, out GetPaymentResponse response);
 }

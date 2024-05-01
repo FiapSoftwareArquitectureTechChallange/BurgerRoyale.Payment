@@ -1,7 +1,7 @@
 ﻿using Flunt.Notifications;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace BurgerRoyale.Payment.API;
+namespace BurgerRoyale.Payment.API.Extensions;
 
 public static class AddErrosFromNotifications
 {

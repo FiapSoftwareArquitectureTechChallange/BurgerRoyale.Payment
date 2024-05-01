@@ -1,6 +1,6 @@
 ﻿using BurgerRoyale.Payment.Domain.Enums;
 
-namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+namespace BurgerRoyale.Payment.Application.Models;
 
 public class GetPaymentResponse
 {

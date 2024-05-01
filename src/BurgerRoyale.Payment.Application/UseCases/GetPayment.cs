@@ -1,6 +1,8 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿namespace BurgerRoyale.Payment.Application.UseCases;
 
-using BurgerRoyale.Payment.Application.Tests.Mappers;
+using BurgerRoyale.Payment.Application.Contracts.Mappers;
+using BurgerRoyale.Payment.Application.Contracts.UseCases;
+using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 

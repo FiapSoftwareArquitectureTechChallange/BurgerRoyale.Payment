@@ -1,6 +1,7 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.Mappers;
+﻿namespace BurgerRoyale.Payment.Application.Mapper;
 
-using BurgerRoyale.Payment.Application.Tests.UseCases;
+using BurgerRoyale.Payment.Application.Contracts.Mappers;
+using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Entities;
 
 public class PaymentMapper : IPaymentMapper

@@ -2,7 +2,9 @@
 
 using BurgerRoyale.Payment.Domain.Enums;
 using BurgerRoyale.Payment.Domain.Entities;
-using BurgerRoyale.Payment.Application.Tests.UseCases;
+using BurgerRoyale.Payment.Application.Contracts.Mappers;
+using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Application.Mapper;
 
 internal class PaymentMapperShould
 {

@@ -1,4 +1,5 @@
-﻿using BurgerRoyale.Payment.Application.Contracts.UseCases;
+﻿using BurgerRoyale.Payment.API.Extensions;
+using BurgerRoyale.Payment.Application.Contracts.UseCases;
 using BurgerRoyale.Payment.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

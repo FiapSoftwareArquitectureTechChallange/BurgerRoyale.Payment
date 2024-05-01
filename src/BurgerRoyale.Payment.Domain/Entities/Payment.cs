@@ -65,4 +65,9 @@ public class Payment : Notifiable<Notification>, IEntityBase
     {
         return Value == 0;
     }
+
+    public void Pay()
+    {
+        throw new NotImplementedException();
+    }
 }

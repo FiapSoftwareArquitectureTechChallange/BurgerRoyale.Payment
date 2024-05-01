@@ -129,7 +129,7 @@ internal class PaymentShould
 
         var payment = new Payment(
             invalidOrder,
-            PaymentStatus.Payd,
+            PaymentStatus.Paid,
             50
 		);
 
@@ -149,6 +149,32 @@ internal class PaymentShould
 			Assert.That(payment.Notifications.First().Key, Is.EqualTo("Order"));
 			Assert.That(payment.Notifications.First().Message, Is.EqualTo("The Order is invalid."));
 		});
+
+		#endregion
+	}
+    
+    [Test]
+    public void Pay()
+    {
+        #region Arrange(Given)
+
+        var payment = new Payment(
+            Guid.NewGuid(),
+            PaymentStatus.Pending,
+            50
+        );
+
+        #endregion
+
+        #region Act(When)
+
+        payment.Pay();
+
+        #endregion
+
+        #region Assert(Then)
+
+		Assert.That(payment.Status, Is.EqualTo(PaymentStatus.Paid));
 
 		#endregion
 	}

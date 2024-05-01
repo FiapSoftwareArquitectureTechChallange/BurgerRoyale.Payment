@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Infrastructure", "src\BurgerRoyale.Payment.Infrastructure\BurgerRoyale.Payment.Infrastructure.csproj", "{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Domain.Tests", "tests\BurgerRoyale.Payment.Domain.Tests\BurgerRoyale.Payment.Domain.Tests.csproj", "{3C43757A-49CF-4A78-AFA4-415A6768547B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C43757A-49CF-4A78-AFA4-415A6768547B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C43757A-49CF-4A78-AFA4-415A6768547B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C43757A-49CF-4A78-AFA4-415A6768547B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C43757A-49CF-4A78-AFA4-415A6768547B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C} = {316843B0-F0B9-4F2C-8507-3CB6F976BC1D}
 		{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67} = {316843B0-F0B9-4F2C-8507-3CB6F976BC1D}
 		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9} = {316843B0-F0B9-4F2C-8507-3CB6F976BC1D}
+		{3C43757A-49CF-4A78-AFA4-415A6768547B} = {C5793156-0F37-49D7-A6D0-268FC014D1F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE69204E-7E76-4C85-B5D7-998F1519E3AA}

@@ -9,5 +9,5 @@ public interface IPaymentRepository
 
     Task<IEnumerable<Payment>> Get();
     
-    Task<Payment> GetById(Guid id);
+    Task<Payment?> GetById(Guid id);
 }

@@ -118,8 +118,6 @@ internal class GetPaymentShould
 
 		Assert.That(response, Is.Not.Null);
 
-		Assert.That(response, Is.Not.Empty);
-		
 		Assert.That(response.Id, Is.EqualTo(payment.Id));
 
 		#endregion

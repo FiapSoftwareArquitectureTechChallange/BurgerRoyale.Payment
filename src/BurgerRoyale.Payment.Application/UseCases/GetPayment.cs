@@ -18,8 +18,10 @@ public class GetPayment(
         return payments.Select(mapper.Map);
     }
 
-    public Task<GetPaymentResponse> GetByIdAsync(Guid paymentId)
+    public async Task<GetPaymentResponse> GetByIdAsync(Guid paymentId)
     {
-        throw new NotImplementedException();
+        Payment? payment = await repository.GetById(paymentId);
+
+        return mapper.Map(payment);
     }
 }

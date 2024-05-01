@@ -25,6 +25,16 @@ public class Payment : Notifiable<Notification>, IEntityBase
 
     private void Validate()
     {
+        if (OrderIsInvalid())
+        {
+            AddNotification("Order", "The Order is invalid.");
+        }
+        
+        if (StatusIsInvalid())
+        {
+            AddNotification("Payment Status", "The Payment Status is invalid.");
+        }
+
         if (ValueIsNegative())
         {
             AddNotification("Value", "The Value cannot be negative.");
@@ -34,11 +44,16 @@ public class Payment : Notifiable<Notification>, IEntityBase
         {
             AddNotification("Value", "The Value is required.");
         }
-        
-        if (StatusIsInvalid())
-        {
-            AddNotification("Payment Status", "The Payment Status is invalid.");
-        }
+    }
+
+    private bool OrderIsInvalid()
+    {
+        return OrderId == Guid.Empty;
+    }
+    
+    private bool StatusIsInvalid()
+    {
+        return Status == PaymentStatus.None;
     }
 
     private bool ValueIsNegative()
@@ -49,10 +64,5 @@ public class Payment : Notifiable<Notification>, IEntityBase
     private bool ValueIsNotDefined()
     {
         return Value == 0;
-    }
-    
-    private bool StatusIsInvalid()
-    {
-        return Status == PaymentStatus.None;
     }
 }

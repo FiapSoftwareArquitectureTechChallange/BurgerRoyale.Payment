@@ -5,13 +5,14 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BurgerRoyale.Payment.API.Controllers;
 
-[Route("Payment")]
+[Route("api/Payment")]
+[ApiController]
 public class RequestPaymentController(IRequestPayment requestPayment) : ControllerBase
 {
     [HttpPost(Name = "RequestPayment")]
     [SwaggerOperation(
         Summary = "Request a payment", 
-        Description = "Request a payment of a specific order.")]
+        Description = "Request payment of a specific order.")]
     [ProducesResponseType(typeof(RequestPaymentResponse),
         StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails),

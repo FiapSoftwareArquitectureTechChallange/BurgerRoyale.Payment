@@ -4,5 +4,5 @@ using BurgerRoyale.Payment.Domain.Entities;
 
 public interface IPaymentRepository
 {
-    void Add(Payment payment);
+    Task Add(Payment payment);
 }

@@ -22,7 +22,7 @@ internal class RequestPaymentShould
 
         var paymentRepositoryMock = new Mock<IPaymentRepository>();
 
-        IRequestPayment requestPayment = new RequestPayment();
+        IRequestPayment requestPayment = new RequestPayment(paymentRepositoryMock.Object);
 
         #endregion
 

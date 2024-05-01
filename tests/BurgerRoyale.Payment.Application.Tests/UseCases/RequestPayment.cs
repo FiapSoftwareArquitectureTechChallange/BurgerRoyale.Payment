@@ -1,10 +1,16 @@
-﻿
-namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
 
-public class RequestPayment : IRequestPayment
+using BurgerRoyale.Payment.Domain.Entities;
+using BurgerRoyale.Payment.Domain.Enums;
+
+public class RequestPayment(IPaymentRepository repository) : IRequestPayment
 {
-    public Task<RequestPaymentResponse> RequestAsync(RequestPaymentRequest request)
+    public async Task<RequestPaymentResponse> RequestAsync(RequestPaymentRequest request)
     {
-        throw new NotImplementedException();
+        var payment = new Payment(request.OrderId, PaymentStatus.Pending, request.Value);
+
+        await repository.Add(payment);
+
+        return new RequestPaymentResponse();
     }
 }

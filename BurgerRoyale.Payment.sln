@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{316843B0-F0B9-4F2C-8507-3CB6F976BC1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C5793156-0F37-49D7-A6D0-268FC014D1F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Domain", "src\BurgerRoyale.Payment.Domain\BurgerRoyale.Payment.Domain.csproj", "{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Application", "src\BurgerRoyale.Payment.Application\BurgerRoyale.Payment.Application.csproj", "{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Infrastructure", "src\BurgerRoyale.Payment.Infrastructure\BurgerRoyale.Payment.Infrastructure.csproj", "{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C} = {316843B0-F0B9-4F2C-8507-3CB6F976BC1D}
+		{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67} = {316843B0-F0B9-4F2C-8507-3CB6F976BC1D}
+		{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9} = {316843B0-F0B9-4F2C-8507-3CB6F976BC1D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE69204E-7E76-4C85-B5D7-998F1519E3AA}
+	EndGlobalSection
+EndGlobal

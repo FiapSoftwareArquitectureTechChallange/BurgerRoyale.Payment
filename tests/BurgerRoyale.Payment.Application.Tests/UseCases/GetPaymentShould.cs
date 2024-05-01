@@ -7,12 +7,22 @@ using Moq;
 
 internal class GetPaymentShould
 {
+    private Mock<IPaymentRepository> repositoryMock;
+    
+	private IGetPayment getPayment;
+
+    [SetUp]
+	public void SetUp()
+	{
+        repositoryMock = new Mock<IPaymentRepository>();
+
+        getPayment = new GetPayment(repositoryMock.Object);
+    }
+
     [Test]
     public async Task Get_Payments()
     {
 		#region Arrange(Given)
-
-		var repositoryMock = new Mock<IPaymentRepository>();
 
 		var payment1 = new Payment(Guid.NewGuid(), PaymentStatus.Paid, 10);
 		
@@ -21,8 +31,6 @@ internal class GetPaymentShould
 		repositoryMock
 			.Setup(repository => repository.Get())
 			.ReturnsAsync([payment1, payment2]);
-
-		IGetPayment getPayment = new GetPayment(repositoryMock.Object);
 
 		#endregion
 

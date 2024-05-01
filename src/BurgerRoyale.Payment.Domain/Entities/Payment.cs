@@ -68,6 +68,6 @@ public class Payment : Notifiable<Notification>, IEntityBase
 
     public void Pay()
     {
-        throw new NotImplementedException();
+        Status = PaymentStatus.Paid;
     }
 }

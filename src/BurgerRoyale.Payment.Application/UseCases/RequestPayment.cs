@@ -1,5 +1,8 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿namespace BurgerRoyale.Payment.Application.UseCases;
 
+using BurgerRoyale.Payment.Application.Contracts.UseCases;
+using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
 
@@ -22,8 +25,8 @@ public class RequestPayment(IPaymentRepository repository) : IRequestPayment
     private static Payment CreatePayment(RequestPaymentRequest request)
     {
         return new Payment(
-            request.OrderId, 
-            PaymentStatus.Pending, 
+            request.OrderId,
+            PaymentStatus.Pending,
             request.Value);
     }
 

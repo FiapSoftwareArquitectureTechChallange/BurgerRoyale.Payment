@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BurgerRoyale.Payment.Application\BurgerRoyale.Payment.Application.csproj" />
     <ProjectReference Include="..\..\src\BurgerRoyale.Payment.Domain\BurgerRoyale.Payment.Domain.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,6 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿using BurgerRoyale.Payment.Application.Models;
+
+namespace BurgerRoyale.Payment.Application.Contracts.UseCases;
 
 public interface IRequestPayment
 {

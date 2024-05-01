@@ -1,9 +1,12 @@
 ﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
 
+using BurgerRoyale.Payment.Application.Contracts.UseCases;
+using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Application.UseCases;
+using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
 using Moq;
-using Newtonsoft.Json.Linq;
 
 internal class RequestPaymentShould
 {

@@ -1,6 +1,6 @@
 ﻿using Flunt.Notifications;
 
-namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+namespace BurgerRoyale.Payment.Application.Models;
 
 public class RequestPaymentResponse : Notifiable<Notification>
 {

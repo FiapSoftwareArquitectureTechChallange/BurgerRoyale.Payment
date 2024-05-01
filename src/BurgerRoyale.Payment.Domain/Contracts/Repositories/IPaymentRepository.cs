@@ -1,4 +1,4 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿namespace BurgerRoyale.Payment.Domain.Contracts.Repositories;
 
 using BurgerRoyale.Payment.Domain.Entities;
 

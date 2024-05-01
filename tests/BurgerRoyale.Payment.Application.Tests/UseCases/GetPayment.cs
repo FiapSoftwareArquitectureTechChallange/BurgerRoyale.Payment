@@ -1,9 +1,16 @@
-﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 
-public class GetPayment : IGetPayment
+namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+
+public class GetPayment(IPaymentRepository repository) : IGetPayment
 {
-    public Task<IEnumerable<GetPaymentResponse>> GetAsync()
+    public async Task<IEnumerable<GetPaymentResponse>> GetAsync()
     {
-        throw new NotImplementedException();
+        var payments = await repository.Get();
+
+        return payments.Select(payment => new GetPaymentResponse
+        {
+            Id = payment.Id,
+        });
     }
 }

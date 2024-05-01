@@ -22,7 +22,7 @@ internal class GetPaymentShould
 			.Setup(repository => repository.Get())
 			.ReturnsAsync([payment1, payment2]);
 
-		IGetPayment getPayment = new GetPayment();
+		IGetPayment getPayment = new GetPayment(repositoryMock.Object);
 
 		#endregion
 

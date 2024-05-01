@@ -7,21 +7,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{316843B0-F0B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C5793156-0F37-49D7-A6D0-268FC014D1F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Domain", "src\BurgerRoyale.Payment.Domain\BurgerRoyale.Payment.Domain.csproj", "{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.Domain", "src\BurgerRoyale.Payment.Domain\BurgerRoyale.Payment.Domain.csproj", "{ED4DA78A-52A6-44C9-8C1B-4B637000FE2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Application", "src\BurgerRoyale.Payment.Application\BurgerRoyale.Payment.Application.csproj", "{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.Application", "src\BurgerRoyale.Payment.Application\BurgerRoyale.Payment.Application.csproj", "{7D6560DA-46EC-47A8-AF7B-D4A51EE21D67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Infrastructure", "src\BurgerRoyale.Payment.Infrastructure\BurgerRoyale.Payment.Infrastructure.csproj", "{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.Infrastructure", "src\BurgerRoyale.Payment.Infrastructure\BurgerRoyale.Payment.Infrastructure.csproj", "{90E2FA71-4FF5-4FF5-9684-8AF62E2823D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Domain.Tests", "tests\BurgerRoyale.Payment.Domain.Tests\BurgerRoyale.Payment.Domain.Tests.csproj", "{3C43757A-49CF-4A78-AFA4-415A6768547B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.Domain.Tests", "tests\BurgerRoyale.Payment.Domain.Tests\BurgerRoyale.Payment.Domain.Tests.csproj", "{3C43757A-49CF-4A78-AFA4-415A6768547B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.Application.Tests", "tests\BurgerRoyale.Payment.Application.Tests\BurgerRoyale.Payment.Application.Tests.csproj", "{9FB00DC9-A4CA-4FE4-ACA8-4400CCB7E47A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.Application.Tests", "tests\BurgerRoyale.Payment.Application.Tests\BurgerRoyale.Payment.Application.Tests.csproj", "{9FB00DC9-A4CA-4FE4-ACA8-4400CCB7E47A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.API", "src\BurgerRoyale.Payment.API\BurgerRoyale.Payment.API.csproj", "{6AA81ED6-CBA9-43FA-9F29-E2B6DC59C6AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.API", "src\BurgerRoyale.Payment.API\BurgerRoyale.Payment.API.csproj", "{6AA81ED6-CBA9-43FA-9F29-E2B6DC59C6AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.IOC", "src\BurgerRoyale.Payment.IOC\BurgerRoyale.Payment.IOC.csproj", "{A33A834B-2784-4B8D-9179-6EA8B94B0E05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.IOC", "src\BurgerRoyale.Payment.IOC\BurgerRoyale.Payment.IOC.csproj", "{A33A834B-2784-4B8D-9179-6EA8B94B0E05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerRoyale.Payment.BehaviorTests", "tests\BurgerRoyale.Payment.BehaviorTests\BurgerRoyale.Payment.BehaviorTests.csproj", "{4F0056EA-3970-452F-9119-C69A559F19FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurgerRoyale.Payment.BehaviorTests", "tests\BurgerRoyale.Payment.BehaviorTests\BurgerRoyale.Payment.BehaviorTests.csproj", "{4F0056EA-3970-452F-9119-C69A559F19FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

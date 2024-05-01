@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="BurgerRoyale.Payment.BehaviorTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BurgerRoyale.Payment.Application\BurgerRoyale.Payment.Application.csproj" />
     <ProjectReference Include="..\BurgerRoyale.Payment.IOC\BurgerRoyale.Payment.IOC.csproj" />
   </ItemGroup>

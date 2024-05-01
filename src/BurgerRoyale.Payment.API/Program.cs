@@ -1,3 +1,5 @@
+using BurgerRoyale.Payment.IOC;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -8,6 +10,8 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.EnableAnnotations();
 });
+
+builder.Services.AddDependencies();
 
 var app = builder.Build();
 

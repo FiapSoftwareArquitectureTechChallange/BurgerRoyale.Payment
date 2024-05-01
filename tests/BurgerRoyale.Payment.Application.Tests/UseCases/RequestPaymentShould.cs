@@ -1,10 +1,32 @@
 ﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
 
 using BurgerRoyale.Payment.Domain.Entities;
+using BurgerRoyale.Payment.Domain.Enums;
 using Moq;
+using Newtonsoft.Json.Linq;
 
 internal class RequestPaymentShould
 {
+    private Mock<IPaymentRepository> paymentRepositoryMock;
+    
+    private IRequestPayment requestPayment;
+    
+    private RequestPaymentRequest request;
+
+    [SetUp]
+    public void SetUp()
+    {
+        paymentRepositoryMock = new Mock<IPaymentRepository>();
+
+        requestPayment = new RequestPayment(paymentRepositoryMock.Object);
+
+        request = new RequestPaymentRequest
+        {
+            OrderId = Guid.NewGuid(),
+            Value = 10,
+        };
+    }
+
     [Test]
     public async Task Request_Payment()
     {
@@ -12,17 +34,11 @@ internal class RequestPaymentShould
 
 		var orderId = Guid.NewGuid();
 
+        request.OrderId = orderId;
+
 		decimal value = 100;
 
-		var request = new RequestPaymentRequest
-        {
-			OrderId = orderId,
-			Value = value,
-		};
-
-        var paymentRepositoryMock = new Mock<IPaymentRepository>();
-
-        IRequestPayment requestPayment = new RequestPayment(paymentRepositoryMock.Object);
+        request.Value = value;
 
         #endregion
 
@@ -43,6 +59,29 @@ internal class RequestPaymentShould
                 payment => 
                     payment.OrderId == orderId &&
                     payment.Value == value)));
+
+        #endregion
+    }
+
+    [Test]
+    public async Task Create_Payment_With_Pending_Status_When_Request_Payment()
+    {
+		#region Arrange(Given)
+
+        #endregion
+
+        #region Act(When)
+
+        await requestPayment.RequestAsync(request);
+
+        #endregion
+
+        #region Assert(Then)
+
+        paymentRepositoryMock
+            .Verify(repository => repository.Add(It.Is<Payment>(
+                payment => 
+                    payment.Status == PaymentStatus.Pending)));
 
         #endregion
     }

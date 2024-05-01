@@ -40,9 +40,12 @@ internal class GetPaymentShould
 
 		Assert.That(response.Count(), Is.EqualTo(2));
 
-		Assert.That(response.First().Id, Is.EqualTo(payment1.Id));
+		Assert.Multiple(() =>
+		{
+			Assert.That(response.First().Id, Is.EqualTo(payment1.Id));
 
-		Assert.That(response.Last().Id, Is.EqualTo(payment2.Id));
+			Assert.That(response.Last().Id, Is.EqualTo(payment2.Id));
+		});
 
 		#endregion
 	}

@@ -10,6 +10,7 @@ public class PaymentMapper : IPaymentMapper
         return new GetPaymentResponse
         {
             Id = payment.Id,
+            OrderId = payment.OrderId,
         };
     }
 }

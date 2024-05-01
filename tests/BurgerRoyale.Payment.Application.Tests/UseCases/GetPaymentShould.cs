@@ -1,5 +1,6 @@
 ﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
 
+using BurgerRoyale.Payment.Application.Tests.Mappers;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
@@ -9,6 +10,8 @@ internal class GetPaymentShould
 {
     private Mock<IPaymentRepository> repositoryMock;
     
+	private Mock<IPaymentMapper> mapperMock;
+    
 	private IGetPayment getPayment;
 
     [SetUp]
@@ -16,7 +19,11 @@ internal class GetPaymentShould
 	{
         repositoryMock = new Mock<IPaymentRepository>();
 
-        getPayment = new GetPayment(repositoryMock.Object);
+        mapperMock = new Mock<IPaymentMapper>();
+
+        getPayment = new GetPayment(
+			repositoryMock.Object,
+			mapperMock.Object);
     }
 
     [Test]
@@ -31,6 +38,20 @@ internal class GetPaymentShould
 		repositoryMock
 			.Setup(repository => repository.Get())
 			.ReturnsAsync([payment1, payment2]);
+		
+		mapperMock
+			.Setup(mapper => mapper.Map(payment1))
+			.Returns(new GetPaymentResponse
+			{
+				Id = payment1.Id
+			});
+		
+		mapperMock
+			.Setup(mapper => mapper.Map(payment2))
+			.Returns(new GetPaymentResponse
+			{
+				Id = payment2.Id
+			});
 
 		#endregion
 

@@ -1,9 +1,9 @@
-﻿using BurgerRoyale.Payment.Application.Tests.UseCases;
+﻿namespace BurgerRoyale.Payment.Application.Tests.Mappers;
 
-namespace BurgerRoyale.Payment.Application.Tests.Mappers
+using BurgerRoyale.Payment.Application.Tests.UseCases;
+using BurgerRoyale.Payment.Domain.Entities;
+
+public interface IPaymentMapper
 {
-    internal interface IPaymentMapper
-    {
-        GetPaymentResponse Map(Domain.Entities.Payment payment);
-    }
+    GetPaymentResponse Map(Payment payment);
 }

@@ -5,6 +5,7 @@ using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Infrastructure.Database.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 public class PaymentRepository : IPaymentRepository
 {
@@ -22,5 +23,10 @@ public class PaymentRepository : IPaymentRepository
     public async Task Add(Payment payment)
     {
         await _payments.InsertOneAsync(payment);  
+    }
+
+    public Task<IEnumerable<Payment>> Get()
+    {
+        throw new NotImplementedException();
     }
 }

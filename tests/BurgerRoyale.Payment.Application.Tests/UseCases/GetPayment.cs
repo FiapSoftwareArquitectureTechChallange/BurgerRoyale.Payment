@@ -1,16 +1,17 @@
-﻿using BurgerRoyale.Payment.Domain.Contracts.Repositories;
+﻿namespace BurgerRoyale.Payment.Application.Tests.UseCases;
 
-namespace BurgerRoyale.Payment.Application.Tests.UseCases;
+using BurgerRoyale.Payment.Application.Tests.Mappers;
+using BurgerRoyale.Payment.Domain.Contracts.Repositories;
+using BurgerRoyale.Payment.Domain.Entities;
 
-public class GetPayment(IPaymentRepository repository) : IGetPayment
+public class GetPayment(
+    IPaymentRepository repository,
+    IPaymentMapper mapper) : IGetPayment
 {
     public async Task<IEnumerable<GetPaymentResponse>> GetAsync()
     {
-        var payments = await repository.Get();
+        IEnumerable<Payment> payments = await repository.Get();
 
-        return payments.Select(payment => new GetPaymentResponse
-        {
-            Id = payment.Id,
-        });
+        return payments.Select(mapper.Map);
     }
 }

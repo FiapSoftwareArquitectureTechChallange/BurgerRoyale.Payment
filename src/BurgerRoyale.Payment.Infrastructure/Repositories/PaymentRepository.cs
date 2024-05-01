@@ -25,8 +25,10 @@ public class PaymentRepository : IPaymentRepository
         await _payments.InsertOneAsync(payment);  
     }
 
-    public Task<IEnumerable<Payment>> Get()
+    public async Task<IEnumerable<Payment>> Get()
     {
-        throw new NotImplementedException();
+        return await _payments
+            .Find(payment => true)
+            .ToListAsync();
     }
 }

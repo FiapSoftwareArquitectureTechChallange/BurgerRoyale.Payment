@@ -17,11 +17,11 @@ public class Payment : Notifiable<Notification>, IEntityBase
 
     public Guid Id { get; private set; }
 
-    public Guid OrderId { get; set; }
+    public Guid OrderId { get; private set; }
 
-    public PaymentStatus Status { get; set; }
+    public PaymentStatus Status { get; private set; }
 
-    public decimal Value { get; set; }
+    public decimal Value { get; private set; }
 
     private void Validate()
     {

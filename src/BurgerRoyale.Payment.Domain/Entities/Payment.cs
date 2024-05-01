@@ -25,9 +25,24 @@ public class Payment : Notifiable<Notification>, IEntityBase
 
     private void Validate()
     {
-        if (decimal.IsNegative(Value))
+        if (ValueIsNegative())
         {
             AddNotification("Value", "The Value cannot be negative.");
         }
+        
+        if (ValueIsNotDefined())
+        {
+            AddNotification("Value", "The Value is required.");
+        }
+    }
+
+    private bool ValueIsNegative()
+    {
+        return decimal.IsNegative(Value);
+    }
+    
+    private bool ValueIsNotDefined()
+    {
+        return Value == 0;
     }
 }

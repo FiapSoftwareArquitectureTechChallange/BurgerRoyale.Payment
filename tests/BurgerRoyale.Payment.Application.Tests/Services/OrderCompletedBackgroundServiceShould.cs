@@ -27,7 +27,7 @@ internal class OrderCompletedBackgroundServiceShould
 
 		var requestPaymentMock = new Mock<IRequestPayment>();
 
-		IBackgroundService<RequestPaymentRequest> backgroundService = new OrderCompletedBackgroundService();
+		IBackgroundService<RequestPaymentRequest> backgroundService = new OrderCompletedBackgroundService(requestPaymentMock.Object);
 
 		#endregion
 

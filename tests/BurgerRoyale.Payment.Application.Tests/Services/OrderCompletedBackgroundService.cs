@@ -1,12 +1,13 @@
-﻿using BurgerRoyale.Payment.Application.Models;
+﻿using BurgerRoyale.Payment.Application.Contracts.UseCases;
+using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
 
 namespace BurgerRoyale.Payment.Application.Tests.Services;
 
-public class OrderCompletedBackgroundService : IBackgroundService<RequestPaymentRequest>
+public class OrderCompletedBackgroundService(IRequestPayment requestPayment) : IBackgroundService<RequestPaymentRequest>
 {
-    public Task ProcessMessage(RequestPaymentRequest message)
+    public async Task ProcessMessage(RequestPaymentRequest message)
     {
-        throw new NotImplementedException();
+        await requestPayment.RequestAsync(message);
     }
 }

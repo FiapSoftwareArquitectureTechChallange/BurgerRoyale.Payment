@@ -6,10 +6,15 @@ using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Extensions;
+using BurgerRoyale.Payment.Domain.BackgroundMessage;
+using Microsoft.Extensions.Options;
+using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
 
 public class PayPayment(
     IPaymentRepository repository,
-    IPaymentValidator validator) : IPayPayment
+    IPaymentValidator validator,
+    IOptions<MessageQueuesConfiguration> messageQueues,
+    IMessageService messageService) : IPayPayment
 {
     public async Task<PayPaymentResponse> PayAsync(Guid paymentId)
     {
@@ -23,6 +28,8 @@ public class PayPayment(
         Pay(payment!);
 
         Update(payment!);
+
+        await SendFeedbackMessageToOrder(payment!);
 
         return SuccessfulResponse();
     }
@@ -45,6 +52,19 @@ public class PayPayment(
     private void Update(Payment payment)
     {
         repository.Update(payment);
+    }
+    
+    private async Task SendFeedbackMessageToOrder(Payment payment)
+    {
+        var model = new PaymentFeedback
+        {
+            OrderId = payment.OrderId,
+            ProcessedSuccessfully = true
+        };
+
+        await messageService.SendMessageAsync(
+            messageQueues.Value.OrderPaymentFeedbackQueue, 
+            model);
     }
 
     private static PayPaymentResponse SuccessfulResponse()

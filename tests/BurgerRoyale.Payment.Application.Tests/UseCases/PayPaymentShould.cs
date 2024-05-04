@@ -3,10 +3,12 @@
 using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Application.UseCases;
+using BurgerRoyale.Payment.Domain.BackgroundMessage;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
+using Microsoft.Extensions.Options;
 using Moq;
 
 internal class PayPaymentShould
@@ -14,6 +16,8 @@ internal class PayPaymentShould
     private Mock<IPaymentRepository> repositoryMock;
     
 	private Mock<IPaymentValidator> validatorMock;
+
+    private Mock<IOptions<MessageQueuesConfiguration>> messageQueueConfigMock;
     
 	private Mock<IMessageService> messageServiceMock;
     
@@ -26,11 +30,19 @@ internal class PayPaymentShould
 
         validatorMock = new Mock<IPaymentValidator>();
 
+		messageQueueConfigMock = new Mock<IOptions<MessageQueuesConfiguration>>();
+
 		messageServiceMock = new Mock<IMessageService>();
 
         payPayment = new PayPayment(
 			repositoryMock.Object,
-			validatorMock.Object);
+			validatorMock.Object,
+            messageQueueConfigMock.Object,
+            messageServiceMock.Object);
+
+        messageQueueConfigMock
+            .Setup(queue => queue.Value)
+            .Returns(new MessageQueuesConfiguration());
     }
 
     [Test]
@@ -88,21 +100,29 @@ internal class PayPaymentShould
 			.Setup(repository => repository.GetById(paymentId))
 			.ReturnsAsync(payment);
 
-		#endregion
 
-		#region Act(When)
+        string queueName = "sqs-order-payment-feedback";
 
-		await payPayment.PayAsync(paymentId);
+        messageQueueConfigMock
+            .Setup(queue => queue.Value)
+			.Returns(new MessageQueuesConfiguration
+			{
+				OrderPaymentFeedbackQueue = queueName
+            });
+
+        #endregion
+
+        #region Act(When)
+
+        await payPayment.PayAsync(paymentId);
 
 		#endregion
 
 		#region Assert(Then)
 
-		string expectedQueueName = "sqs-order-payment-feedback";
-
 		messageServiceMock
 			.Verify(messageService => messageService.SendMessageAsync(
-				expectedQueueName, 
+				queueName, 
 				It.Is<PaymentFeedback>(model => 
 					model.OrderId == payment.OrderId &&
 					model.ProcessedSuccessfully == true)), 

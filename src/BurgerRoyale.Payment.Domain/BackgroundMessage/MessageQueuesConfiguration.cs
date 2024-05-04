@@ -3,4 +3,6 @@
 public class MessageQueuesConfiguration
 {
     public string OrderPaymentRequestQueue { get; set; } = string.Empty;
+
+    public string OrderPaymentFeedbackQueue { get; set; } = string.Empty;
 }

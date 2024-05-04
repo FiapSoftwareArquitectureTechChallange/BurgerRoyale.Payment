@@ -15,6 +15,12 @@ public class GetPaymentValidator : IPaymentValidator
             response.AddNotification("PaymentId", "The payment does not exist.");
             return true;
         }
+        
+        if (PaymentIsInvalid(payment!))
+        {
+            response.AddNotifications(payment!.Notifications);
+            return true;
+        }
 
         return !response.IsValid;
     }
@@ -22,5 +28,10 @@ public class GetPaymentValidator : IPaymentValidator
     private static bool PaymentDoesNotExist(Payment? payment)
     {
         return payment is null;
+    }
+    
+    private static bool PaymentIsInvalid(Payment payment)
+    {
+        return !payment.IsValid;
     }
 }

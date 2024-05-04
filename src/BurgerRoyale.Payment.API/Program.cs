@@ -1,4 +1,4 @@
-using BurgerRoyale.Payment.API.Queue;
+using BurgerRoyale.Payment.BackgroundService.Services;
 using BurgerRoyale.Payment.Domain.BackgroundMessage;
 using BurgerRoyale.Payment.Infrastructure.Database.Models;
 using BurgerRoyale.Payment.IOC;

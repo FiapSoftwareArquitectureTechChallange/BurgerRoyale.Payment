@@ -4,17 +4,24 @@ using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Application.Validators;
 using BurgerRoyale.Payment.Domain.Entities;
+using BurgerRoyale.Payment.Domain.Enums;
 
 internal class PaymentValidatorShould
 {
+    private IPaymentValidator validator;
+
+    [SetUp]
+    public void SetUp()
+    {
+        validator = new GetPaymentValidator();
+    }
+
     [Test]
     public void Return_Notification_When_Payment_Does_Not_Exist()
     {
 		#region Arrange(Given)
 
 		Payment? unexistingPayment = null;
-
-        IPaymentValidator validator = new GetPaymentValidator();
 
         #endregion
 
@@ -35,6 +42,33 @@ internal class PaymentValidatorShould
             Assert.That(response.Notifications.First().Key, Is.EqualTo("PaymentId"));
             Assert.That(response.Notifications.First().Message, Is.EqualTo("The payment does not exist."));
         });
+
+        #endregion
+    }
+    
+    [Test]
+    public void Return_Notification_When_Payment_Is_Invalid()
+    {
+        #region Arrange(Given)
+
+        var invalidPayment = new Payment(
+            Guid.NewGuid(),
+            PaymentStatus.Pending,
+            -50);
+
+        #endregion
+
+        #region Act(When)
+
+        bool isInvalid = validator.IsInvalid(invalidPayment, out NotificationModel response);
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.That(isInvalid, Is.True);
+
+        Assert.That(response.Notifications.Count, Is.EqualTo(1));
 
         #endregion
     }

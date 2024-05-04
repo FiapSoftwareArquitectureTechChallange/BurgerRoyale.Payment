@@ -2,21 +2,20 @@
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using BurgerRoyale.Payment.Domain.BackgroundMessage;
+using BurgerRoyale.Payment.Domain.Contracts.CredentialConfigurations;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
-using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
 
 public class AWSSQSService : IMessageService
 {
-    private readonly AWSConfiguration _awsConfiguration;
+    private readonly ICredentialConfiguration _credentialConfiguration;
     private readonly IAmazonSQS _amazonSQSClient;
 
-    public AWSSQSService(IOptions<AWSConfiguration> awsConfiguration)
+    public AWSSQSService(ICredentialConfiguration credentialConfiguration)
     {
-        _awsConfiguration = awsConfiguration.Value;
+        _credentialConfiguration = credentialConfiguration;
         _amazonSQSClient = CreateClient();
     }
 
@@ -83,12 +82,12 @@ public class AWSSQSService : IMessageService
     private IAmazonSQS CreateClient()
     {
         var credentials = new SessionAWSCredentials(
-            _awsConfiguration.AccessKey,
-            _awsConfiguration.SecretKey,
-            _awsConfiguration.SessionToken
+            _credentialConfiguration.AccessKey(),
+            _credentialConfiguration.SecretKey(),
+            _credentialConfiguration.SessionToken()
         );
 
-        var region = RegionEndpoint.GetBySystemName(_awsConfiguration.Region);
+        var region = RegionEndpoint.GetBySystemName(_credentialConfiguration.Region());
 
         return new AmazonSQSClient(
             credentials,

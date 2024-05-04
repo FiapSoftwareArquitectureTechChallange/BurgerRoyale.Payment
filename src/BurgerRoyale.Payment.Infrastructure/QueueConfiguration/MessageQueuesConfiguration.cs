@@ -5,13 +5,18 @@ namespace BurgerRoyale.Payment.Infrastructure.QueueConfiguration;
 
 public class MessageQueuesConfiguration(IConfiguration configuration) : IMessageQueue
 {
-    string IMessageQueue.OrderPaymentFeedbackQueue()
+    public string OrderPaymentFeedbackQueue()
     {
-        IConfigurationSection queueSettings = configuration.GetSection("MessageQueues");
+        IConfigurationSection queueSettings = GetQueueSection();
         return queueSettings.GetSection("OrderPaymentFeedbackQueue").Value!;
     }
 
-    string IMessageQueue.OrderPaymentRequestQueue()
+    private IConfigurationSection GetQueueSection()
+    {
+        return configuration.GetSection("MessageQueues");
+    }
+
+    public string OrderPaymentRequestQueue()
     {
         IConfigurationSection queueSettings = configuration.GetSection("MessageQueues");
         return queueSettings.GetSection("OrderPaymentRequestQueue").Value!;

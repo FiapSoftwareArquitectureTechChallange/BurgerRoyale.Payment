@@ -1,8 +1,5 @@
 using BurgerRoyale.Payment.BackgroundService.Services;
-using BurgerRoyale.Payment.Domain.BackgroundMessage;
-using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using BurgerRoyale.Payment.Infrastructure.Database.Models;
-using BurgerRoyale.Payment.Infrastructure.QueueConfiguration;
 using BurgerRoyale.Payment.IOC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,11 +14,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
-
-builder.Services.Configure<AWSConfiguration>
-(
-    options => builder.Configuration.GetSection("AWS").Bind(options)
-);
 
 builder.Services.AddDependencies();
 

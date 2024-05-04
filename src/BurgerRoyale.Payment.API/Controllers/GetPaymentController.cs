@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BurgerRoyale.Payment.API.Controllers;
 
-[Route("api/Payment")]
+[Route("api/payments")]
 [ApiController]
 public class GetPaymentController(
     IGetPayment getPayment) : ControllerBase

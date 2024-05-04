@@ -6,28 +6,28 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BurgerRoyale.Payment.API.Controllers;
 
-[Route("api/Pay")]
+[Route("api/payments")]
 [ApiController]
 public class MakePaymentController(IPayPayment payment) : Controller
 {
-    [HttpPost("{id:Guid}", Name = "Pay")]
+    [HttpPost("{id:Guid}/pay", Name = "Pay")]
     [SwaggerOperation(
         Summary = "Pay",
         Description = "Pay for an order.")]
-    [ProducesResponseType(typeof(RequestPaymentResponse),
-        StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(PayPaymentResponse),
+        StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails),
         StatusCodes.Status400BadRequest)]
     [ProducesDefaultResponseType]
     public async Task<ActionResult> RequestPayment(Guid id)
     {
-        var paymentResponse = await payment.PayAsync(id);
+        PayPaymentResponse response = await payment.PayAsync(id);
 
-        if (!paymentResponse.IsValid)
+        if (!response.IsValid)
         {
-            return ValidationProblem(ModelState.AddErrosFromNofifications(paymentResponse.Notifications));
+            return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
         }
 
-        return StatusCode(StatusCodes.Status200OK, paymentResponse);
+        return StatusCode(StatusCodes.Status200OK, response);
     }
 }

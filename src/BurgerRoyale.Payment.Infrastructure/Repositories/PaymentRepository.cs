@@ -39,4 +39,9 @@ public class PaymentRepository : IPaymentRepository
             .Find(payment => payment.Id == id)
             .FirstOrDefaultAsync();
     }
+
+    public Task Save(Payment payment)
+    {
+        throw new NotImplementedException();
+    }
 }

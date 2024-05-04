@@ -16,7 +16,6 @@ public static class InjectionConfig
         
         services.AddScoped<IRequestPayment, RequestPayment>();
         services.AddScoped<IGetPayment, GetPayment>();
-        services.AddScoped<IPayPayment, PayPayment>();
         
         #endregion
         
@@ -28,7 +27,7 @@ public static class InjectionConfig
         
         #region Validators
         
-        services.AddScoped<IGetPaymentValidator, GetPaymentValidator>();
+        services.AddScoped<IPaymentValidator, PaymentValidator>();
         
         #endregion
     }

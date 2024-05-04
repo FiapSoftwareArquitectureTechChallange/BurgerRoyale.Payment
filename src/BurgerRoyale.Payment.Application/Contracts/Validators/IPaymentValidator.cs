@@ -3,7 +3,7 @@
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Entities;
 
-public interface IGetPaymentValidator
+public interface IPaymentValidator
 {
-    bool IsInvalid(Payment? payment, out GetPaymentResponse response);
+    bool IsInvalid(Payment? payment, out NotificationModel response);
 }

@@ -5,7 +5,7 @@ using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Application.Validators;
 using BurgerRoyale.Payment.Domain.Entities;
 
-internal class GetPaymentValidatorShould
+internal class PaymentValidatorShould
 {
     [Test]
     public void Return_Notification_When_Payment_Does_Not_Exist()
@@ -14,13 +14,13 @@ internal class GetPaymentValidatorShould
 
 		Payment? unexistingPayment = null;
 
-        IGetPaymentValidator validator = new GetPaymentValidator();
+        IPaymentValidator validator = new PaymentValidator();
 
         #endregion
 
         #region Act(When)
 
-        bool isInvalid = validator.IsInvalid(unexistingPayment, out GetPaymentResponse response);
+        bool isInvalid = validator.IsInvalid(unexistingPayment, out NotificationModel response);
 
         #endregion
 

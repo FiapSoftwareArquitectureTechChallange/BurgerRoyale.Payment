@@ -1,14 +1,14 @@
 ﻿namespace BurgerRoyale.Payment.Application.Validators;
 
-using BurgerRoyale.Payment.Domain.Entities;
-using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Application.Contracts.Validators;
+using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Domain.Entities;
 
-public class GetPaymentValidator : IGetPaymentValidator
+public class PaymentValidator : IPaymentValidator
 {
-    public bool IsInvalid(Payment? payment, out GetPaymentResponse response)
+    public bool IsInvalid(Payment? payment, out NotificationModel response)
     {
-        response = new GetPaymentResponse();
+        response = new NotificationModel();
 
         if (PaymentDoesNotExist(payment))
         {

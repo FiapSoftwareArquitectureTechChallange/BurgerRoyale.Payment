@@ -16,7 +16,7 @@ internal class GetPaymentShould
     
 	private Mock<IPaymentMapper> mapperMock;
     
-	private Mock<IGetPaymentValidator> validatorMock;
+	private Mock<IPaymentValidator> validatorMock;
     
 	private IGetPayment getPayment;
 
@@ -27,7 +27,7 @@ internal class GetPaymentShould
 
         mapperMock = new Mock<IPaymentMapper>();
 
-        validatorMock = new Mock<IGetPaymentValidator>();
+        validatorMock = new Mock<IPaymentValidator>();
 
         getPayment = new GetPayment(
 			repositoryMock.Object,
@@ -136,7 +136,7 @@ internal class GetPaymentShould
 
 		var paymentId = Guid.NewGuid();
 
-		var invalidResponse = new GetPaymentResponse();
+		var invalidResponse = new NotificationModel();
 
 		validatorMock
 			.Setup(validator => validator.IsInvalid(It.IsAny<Payment>(), out invalidResponse))

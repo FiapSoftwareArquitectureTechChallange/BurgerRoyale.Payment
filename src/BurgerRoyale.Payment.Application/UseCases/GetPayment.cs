@@ -11,7 +11,7 @@ using System;
 public class GetPayment(
     IPaymentRepository repository,
     IPaymentMapper mapper,
-    IGetPaymentValidator validator) : IGetPayment
+    IPaymentValidator validator) : IGetPayment
 {
     public async Task<IEnumerable<GetPaymentResponse>> GetAsync()
     {
@@ -24,15 +24,15 @@ public class GetPayment(
     {
         Payment? payment = await repository.GetById(paymentId);
 
-        if (RequestIsInvalid(payment, out GetPaymentResponse invalidResponse))
+        if (RequestIsInvalid(payment, out NotificationModel invalidResponse))
         {
-            return invalidResponse;
+            return (GetPaymentResponse) invalidResponse;
         }
 
         return mapper.Map(payment!);
     }
 
-    private bool RequestIsInvalid(Payment? payment, out GetPaymentResponse invalidResponse)
+    private bool RequestIsInvalid(Payment? payment, out NotificationModel invalidResponse)
     {
         return validator.IsInvalid(payment, out invalidResponse);
     }

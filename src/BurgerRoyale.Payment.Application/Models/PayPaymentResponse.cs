@@ -1,7 +1,5 @@
-﻿using Flunt.Notifications;
+﻿namespace BurgerRoyale.Payment.Application.Models;
 
-namespace BurgerRoyale.Payment.Application.Models;
-
-public class PayPaymentResponse : Notifiable<Notification>
+public class PayPaymentResponse : NotificationModel
 {
 }

@@ -17,7 +17,6 @@ WORKDIR "/src/src/BurgerRoyale.Payment.API"
 RUN dotnet build "./BurgerRoyale.Payment.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./BurgerRoyale.Payment.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final

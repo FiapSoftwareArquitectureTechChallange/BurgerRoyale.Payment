@@ -1,5 +1,4 @@
 using BurgerRoyale.Payment.BackgroundService.Services;
-using BurgerRoyale.Payment.Infrastructure.Database.Models;
 using BurgerRoyale.Payment.IOC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +11,6 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.EnableAnnotations();
 });
-
-builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
 
 builder.Services.AddDependencies();
 

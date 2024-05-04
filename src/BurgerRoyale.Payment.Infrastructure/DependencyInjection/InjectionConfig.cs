@@ -1,9 +1,11 @@
 ﻿using BurgerRoyale.Payment.Domain.Contracts.CredentialConfigurations;
+using BurgerRoyale.Payment.Domain.Contracts.DatabaseConfiguration;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
 using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
 using BurgerRoyale.Payment.Infrastructure.CredentialConfigurations;
+using BurgerRoyale.Payment.Infrastructure.Database.Models;
 using BurgerRoyale.Payment.Infrastructure.QueueConfiguration;
 using BurgerRoyale.Payment.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,5 +23,7 @@ public static class InjectionConfig
         services.AddScoped<IMessageQueue, MessageQueuesConfiguration>();
 
         services.AddScoped<ICredentialConfiguration, AWSConfiguration>();
+
+        services.AddScoped<IDatabaseConfiguration, MongoDBSettings>();
     }
 }

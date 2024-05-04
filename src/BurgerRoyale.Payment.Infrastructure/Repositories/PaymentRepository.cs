@@ -1,9 +1,8 @@
 ﻿namespace BurgerRoyale.Payment.Infrastructure.Repositories;
 
+using BurgerRoyale.Payment.Domain.Contracts.DatabaseConfiguration;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
-using BurgerRoyale.Payment.Infrastructure.Database.Models;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -12,13 +11,13 @@ public class PaymentRepository : IPaymentRepository
 {
     private readonly IMongoCollection<Payment> _payments;
     
-    public PaymentRepository(IOptions<MongoDBSettings> mongoDBSettings)
+    public PaymentRepository(IDatabaseConfiguration databaseSettings)
     {
-        MongoClient client = new(mongoDBSettings.Value.ConnectionURI);
+        MongoClient client = new(databaseSettings.ConnectionURI());
         
-        IMongoDatabase database = client.GetDatabase(mongoDBSettings.Value.DatabaseName);
+        IMongoDatabase database = client.GetDatabase(databaseSettings.DatabaseName());
 
-        _payments = database.GetCollection<Payment>(mongoDBSettings.Value.CollectionName);
+        _payments = database.GetCollection<Payment>(databaseSettings.CollectionName());
     }
 
     public async Task Add(Payment payment)

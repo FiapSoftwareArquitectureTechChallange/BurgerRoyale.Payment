@@ -1,10 +1,30 @@
-﻿namespace BurgerRoyale.Payment.Infrastructure.Database.Models;
+﻿using BurgerRoyale.Payment.Domain.Contracts.DatabaseConfiguration;
+using Microsoft.Extensions.Configuration;
 
-public class MongoDBSettings
+namespace BurgerRoyale.Payment.Infrastructure.Database.Models;
+
+public class MongoDBSettings(IConfiguration configuration) : IDatabaseConfiguration
 {
-    public string ConnectionURI { get; set; } = null!;
+    public string CollectionName()
+    {
+        IConfigurationSection mongoDBSection = GetMongoDBSection();
+        return mongoDBSection.GetSection("CollectionName").Value!;
+    }
 
-    public string DatabaseName { get; set; } = null!;
+    private IConfigurationSection GetMongoDBSection()
+    {
+        return configuration.GetSection("MongoDB");
+    }
 
-    public string CollectionName { get; set; } = null!;
+    public string ConnectionURI()
+    {
+        IConfigurationSection mongoDBSection = GetMongoDBSection();
+        return mongoDBSection.GetSection("ConnectionURI").Value!;
+    }
+
+    public string DatabaseName()
+    {
+        IConfigurationSection mongoDBSection = GetMongoDBSection();
+        return mongoDBSection.GetSection("DatabaseName").Value!;
+    }
 }

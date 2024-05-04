@@ -13,7 +13,7 @@ internal class PaymentValidatorShould
     [SetUp]
     public void SetUp()
     {
-        validator = new GetPaymentValidator();
+        validator = new PaymentValidator();
     }
 
     [Test]

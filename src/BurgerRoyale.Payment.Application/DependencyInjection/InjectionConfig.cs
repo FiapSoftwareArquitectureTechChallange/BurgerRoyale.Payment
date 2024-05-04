@@ -28,7 +28,7 @@ public static class InjectionConfig
         
         #region Validators
         
-        services.AddScoped<IPaymentValidator, GetPaymentValidator>();
+        services.AddScoped<IPaymentValidator, PaymentValidator>();
         
         #endregion
     }

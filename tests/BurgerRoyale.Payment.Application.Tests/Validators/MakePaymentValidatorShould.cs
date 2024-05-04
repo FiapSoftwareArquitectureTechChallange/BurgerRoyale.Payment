@@ -17,7 +17,7 @@ internal class MakePaymentValidatorShould
     {
         paymentValidatorMock = new Mock<IPaymentValidator>();
 
-        validator = new MakePaymentValidator();
+        validator = new MakePaymentValidator(paymentValidatorMock.Object);
     }
 
     [Test]
@@ -29,6 +29,12 @@ internal class MakePaymentValidatorShould
             Guid.NewGuid(), 
             PaymentStatus.Paid,
             10);
+
+        var responseModel = new NotificationModel();
+
+        paymentValidatorMock
+            .Setup(paymentValidator => paymentValidator.IsInvalid(paymentPaid, out responseModel))
+            .Callback(() => responseModel = new NotificationModel());
 
         #endregion
 

@@ -40,8 +40,10 @@ public class PaymentRepository : IPaymentRepository
             .FirstOrDefaultAsync();
     }
 
-    public Task Update(Payment payment)
+    public async Task Update(Payment payment)
     {
-        throw new NotImplementedException();
+        var filter = Builders<Payment>.Filter.Eq(e => e.Id, payment.Id);
+
+        await _payments.ReplaceOneAsync(filter, payment);
     }
 }

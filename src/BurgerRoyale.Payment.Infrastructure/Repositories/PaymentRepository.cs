@@ -40,7 +40,7 @@ public class PaymentRepository : IPaymentRepository
             .FirstOrDefaultAsync();
     }
 
-    public Task Save(Payment payment)
+    public Task Update(Payment payment)
     {
         throw new NotImplementedException();
     }

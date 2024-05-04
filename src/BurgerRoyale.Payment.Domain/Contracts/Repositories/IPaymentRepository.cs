@@ -11,5 +11,5 @@ public interface IPaymentRepository
     
     Task<Payment?> GetById(Guid id);
 
-    Task Save(Payment payment);
+    Task Update(Payment payment);
 }

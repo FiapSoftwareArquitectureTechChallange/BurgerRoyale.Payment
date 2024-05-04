@@ -10,30 +10,30 @@ using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
 using Moq;
 
-internal class PayPaymentShould
+internal class MakePaymentShould
 {
     private Mock<IPaymentRepository> repositoryMock;
     
-	private Mock<IPaymentValidator> validatorMock;
+	private Mock<IMakePaymentValidator> validatorMock;
 
     private Mock<IMessageQueue> messageQueueMock;
     
 	private Mock<IMessageService> messageServiceMock;
     
-	private PayPayment payPayment;
+	private MakePayment payPayment;
 
     [SetUp] 
 	public void SetUp()
 	{
         repositoryMock = new Mock<IPaymentRepository>();
 
-        validatorMock = new Mock<IPaymentValidator>();
+        validatorMock = new Mock<IMakePaymentValidator>();
 
 		messageQueueMock = new Mock<IMessageQueue>();
 
 		messageServiceMock = new Mock<IMessageService>();
 
-        payPayment = new PayPayment(
+        payPayment = new MakePayment(
 			repositoryMock.Object,
 			validatorMock.Object,
             messageQueueMock.Object,

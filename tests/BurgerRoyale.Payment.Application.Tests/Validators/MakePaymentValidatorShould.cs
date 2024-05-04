@@ -2,6 +2,7 @@
 
 using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
+using BurgerRoyale.Payment.Application.Validators;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
 using Moq;

@@ -9,9 +9,9 @@ using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 
-public class PayPayment(
+public class MakePayment(
     IPaymentRepository repository,
-    IPaymentValidator validator,
+    IMakePaymentValidator validator,
     IMessageQueue messageQueue,
     IMessageService messageService) : IPayPayment
 {

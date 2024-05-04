@@ -5,6 +5,7 @@ using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Application.Contracts.Validators;
+using BurgerRoyale.Payment.Application.Extensions;
 
 public class PayPayment(
     IPaymentRepository repository,
@@ -16,7 +17,7 @@ public class PayPayment(
 
         if (RequestIsInvalid(payment, out NotificationModel invalidResponse))
         {
-            return InvalidResponse(invalidResponse);
+            return invalidResponse.ConvertTo<PayPaymentResponse>();
         }
 
         Pay(payment!);
@@ -34,13 +35,6 @@ public class PayPayment(
     private bool RequestIsInvalid(Payment? payment, out NotificationModel invalidResponse)
     {
         return validator.IsInvalid(payment, out invalidResponse);
-    }
-
-    private static PayPaymentResponse InvalidResponse(NotificationModel notificationModel)
-    {
-        var invalidResponse = new PayPaymentResponse();
-        invalidResponse.AddNotifications(notificationModel.Notifications);
-        return invalidResponse;
     }
 
     private static void Pay(Payment payment)

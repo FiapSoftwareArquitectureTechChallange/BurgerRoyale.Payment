@@ -4,7 +4,7 @@ using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Entities;
 
-public class PaymentValidator : IPaymentValidator
+public class GetPaymentValidator : IPaymentValidator
 {
     public bool IsInvalid(Payment? payment, out NotificationModel response)
     {

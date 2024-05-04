@@ -76,9 +76,10 @@ internal class PayPaymentShould
         Payment? unexistingPayment = null;
 
 		var invalidResponse = new NotificationModel();
+        invalidResponse.AddNotification("key", "notification");
 
         validatorMock
-			.Setup(validator => validator.IsInvalid(unexistingPayment, out invalidResponse))
+            .Setup(validator => validator.IsInvalid(unexistingPayment, out invalidResponse))
 			.Returns(true);	
 
         #endregion
@@ -90,6 +91,8 @@ internal class PayPaymentShould
 		#endregion
 
 		#region Assert(Then)
+
+		Assert.That(response.IsValid, Is.False);
 
 		repositoryMock
 			.Verify(repository => repository.Update(It.IsAny<Payment>()), 

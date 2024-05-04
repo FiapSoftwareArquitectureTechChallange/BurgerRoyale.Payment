@@ -137,6 +137,7 @@ internal class GetPaymentShould
 		var paymentId = Guid.NewGuid();
 
 		var invalidResponse = new NotificationModel();
+		invalidResponse.AddNotification("key", "notification");
 
 		validatorMock
 			.Setup(validator => validator.IsInvalid(It.IsAny<Payment>(), out invalidResponse))
@@ -152,7 +153,7 @@ internal class GetPaymentShould
 
 		#region Assert(Then)
 
-		Assert.That(response, Is.EqualTo(invalidResponse));
+		Assert.That(response.IsValid, Is.False);
 
 		#endregion
 	}

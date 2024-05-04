@@ -14,7 +14,7 @@ internal class PaymentValidatorShould
 
 		Payment? unexistingPayment = null;
 
-        IPaymentValidator validator = new PaymentValidator();
+        IPaymentValidator validator = new GetPaymentValidator();
 
         #endregion
 

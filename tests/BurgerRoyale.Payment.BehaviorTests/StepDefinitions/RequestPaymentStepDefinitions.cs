@@ -13,6 +13,7 @@ public class RequestPaymentStepDefinitions(
         context["OrderPrice"] = 35.79M;
     }
 
+    [Given(@"I request a payment")]
     [When(@"I request a payment")]
     public async Task WhenIRequestAPayment()
     {

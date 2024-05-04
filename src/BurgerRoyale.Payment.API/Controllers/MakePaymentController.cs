@@ -28,6 +28,6 @@ public class MakePaymentController(IPayPayment payment) : Controller
             return ValidationProblem(ModelState.AddErrosFromNofifications(response.Notifications));
         }
 
-        return StatusCode(StatusCodes.Status200OK, response);
+        return Ok(response);
     }
 }

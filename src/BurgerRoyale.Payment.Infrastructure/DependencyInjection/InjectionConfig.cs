@@ -5,6 +5,7 @@ using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
 using BurgerRoyale.Payment.Infrastructure.CredentialConfigurations;
+using BurgerRoyale.Payment.Infrastructure.Database.Contexts;
 using BurgerRoyale.Payment.Infrastructure.Database.Models;
 using BurgerRoyale.Payment.Infrastructure.QueueConfiguration;
 using BurgerRoyale.Payment.Infrastructure.Repositories;
@@ -25,5 +26,7 @@ public static class InjectionConfig
         services.AddScoped<ICredentialConfiguration, AWSConfiguration>();
 
         services.AddScoped<IDatabaseConfiguration, MongoDBSettings>();
+
+        services.AddScoped<PaymentContexts>();
     }
 }

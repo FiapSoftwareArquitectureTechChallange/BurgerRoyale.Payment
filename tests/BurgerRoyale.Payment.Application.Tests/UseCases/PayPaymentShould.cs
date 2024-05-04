@@ -3,6 +3,7 @@
 using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Application.UseCases;
+using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
@@ -14,6 +15,8 @@ internal class PayPaymentShould
     
 	private Mock<IPaymentValidator> validatorMock;
     
+	private Mock<IMessageService> messageServiceMock;
+    
 	private PayPayment payPayment;
 
     [SetUp] 
@@ -22,6 +25,8 @@ internal class PayPaymentShould
         repositoryMock = new Mock<IPaymentRepository>();
 
         validatorMock = new Mock<IPaymentValidator>();
+
+		messageServiceMock = new Mock<IMessageService>();
 
         payPayment = new PayPayment(
 			repositoryMock.Object,
@@ -61,6 +66,46 @@ internal class PayPaymentShould
 
 		repositoryMock
 			.Verify(repository => repository.Update(payment), 
+			Times.Once);
+
+        #endregion
+    }
+	
+	[Test]
+    public async Task Send_Order_Feedback_When_Pay()
+    {
+		#region Arrange(Given)
+
+		var paymentId = Guid.NewGuid();
+
+		var payment = new Payment(
+			paymentId,
+			Guid.NewGuid(),
+			PaymentStatus.Pending,
+			25.99M);
+
+		repositoryMock
+			.Setup(repository => repository.GetById(paymentId))
+			.ReturnsAsync(payment);
+
+		#endregion
+
+		#region Act(When)
+
+		await payPayment.PayAsync(paymentId);
+
+		#endregion
+
+		#region Assert(Then)
+
+		string expectedQueueName = "sqs-order-payment-feedback";
+
+		messageServiceMock
+			.Verify(messageService => messageService.SendMessageAsync(
+				expectedQueueName, 
+				It.Is<PaymentFeedback>(model => 
+					model.OrderId == payment.OrderId &&
+					model.ProcessedSuccessfully == true)), 
 			Times.Once);
 
         #endregion

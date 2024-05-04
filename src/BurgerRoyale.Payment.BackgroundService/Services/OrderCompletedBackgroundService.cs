@@ -19,12 +19,10 @@ public class OrderCompletedBackgroundService : PaymentBackgroundService<RequestP
 
     private static string GetQueueName(IServiceProvider serviceProvider)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
+        using IServiceScope scope = serviceProvider.CreateScope();
 
-            IMessageQueue messageQueue = scope.ServiceProvider.GetRequiredService<IMessageQueue>();
-            return messageQueue.OrderPaymentRequestQueue();
-        }
+        IMessageQueue messageQueue = scope.ServiceProvider.GetRequiredService<IMessageQueue>();
+        return messageQueue.OrderPaymentRequestQueue();
     }
 
     protected override async Task ProcessMessage(RequestPaymentRequest message)

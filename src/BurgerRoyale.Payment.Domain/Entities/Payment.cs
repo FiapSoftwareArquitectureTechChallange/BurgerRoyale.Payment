@@ -79,4 +79,9 @@ public class Payment : Notifiable<Notification>, IEntityBase
     {
         Status = PaymentStatus.Paid;
     }
+
+    public bool IsPaid()
+    {
+        return Status == PaymentStatus.Paid;
+    }
 }

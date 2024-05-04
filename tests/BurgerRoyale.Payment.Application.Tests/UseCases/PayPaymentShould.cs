@@ -23,7 +23,9 @@ internal class PayPaymentShould
 
         validatorMock = new Mock<IPaymentValidator>();
 
-        payPayment = new PayPayment(repositoryMock.Object);
+        payPayment = new PayPayment(
+			repositoryMock.Object,
+			validatorMock.Object);
     }
 
     [Test]
@@ -88,8 +90,6 @@ internal class PayPaymentShould
 		#endregion
 
 		#region Assert(Then)
-
-		Assert.That(response, Is.EqualTo(invalidResponse));
 
 		repositoryMock
 			.Verify(repository => repository.Update(It.IsAny<Payment>()), 

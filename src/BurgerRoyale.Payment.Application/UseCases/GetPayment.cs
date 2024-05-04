@@ -26,7 +26,7 @@ public class GetPayment(
 
         if (RequestIsInvalid(payment, out NotificationModel invalidResponse))
         {
-            return (GetPaymentResponse) invalidResponse;
+            return InvalidResponse(invalidResponse);
         }
 
         return mapper.Map(payment!);
@@ -35,5 +35,12 @@ public class GetPayment(
     private bool RequestIsInvalid(Payment? payment, out NotificationModel invalidResponse)
     {
         return validator.IsInvalid(payment, out invalidResponse);
+    }
+
+    private static GetPaymentResponse InvalidResponse(NotificationModel notificationModel)
+    {
+        var invalidResponse = new GetPaymentResponse();
+        invalidResponse.AddNotifications(notificationModel.Notifications);
+        return invalidResponse;
     }
 }

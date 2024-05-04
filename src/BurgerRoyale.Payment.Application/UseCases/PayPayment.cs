@@ -1,19 +1,18 @@
 ﻿namespace BurgerRoyale.Payment.Application.UseCases;
 
 using BurgerRoyale.Payment.Application.Contracts.UseCases;
-using BurgerRoyale.Payment.Application.Models;
-using BurgerRoyale.Payment.Domain.Entities;
-using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Extensions;
-using BurgerRoyale.Payment.Domain.BackgroundMessage;
-using Microsoft.Extensions.Options;
+using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
+using BurgerRoyale.Payment.Domain.Contracts.Queues;
+using BurgerRoyale.Payment.Domain.Contracts.Repositories;
+using BurgerRoyale.Payment.Domain.Entities;
 
 public class PayPayment(
     IPaymentRepository repository,
     IPaymentValidator validator,
-    IOptions<MessageQueuesConfiguration> messageQueues,
+    IMessageQueue messageQueue,
     IMessageService messageService) : IPayPayment
 {
     public async Task<PayPaymentResponse> PayAsync(Guid paymentId)
@@ -63,7 +62,7 @@ public class PayPayment(
         };
 
         await messageService.SendMessageAsync(
-            messageQueues.Value.OrderPaymentFeedbackQueue, 
+            messageQueue.OrderPaymentFeedbackQueue(), 
             model);
     }
 

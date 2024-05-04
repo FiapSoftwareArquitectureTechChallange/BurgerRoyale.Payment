@@ -1,10 +1,9 @@
 ﻿using BurgerRoyale.Payment.API.Extensions;
 using BurgerRoyale.Payment.Application.Contracts.UseCases;
 using BurgerRoyale.Payment.Application.Models;
-using BurgerRoyale.Payment.Domain.BackgroundMessage;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
+using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace BurgerRoyale.Payment.API.Controllers;
@@ -14,7 +13,7 @@ namespace BurgerRoyale.Payment.API.Controllers;
 public class GetPaymentController(
     IGetPayment getPayment,
     IMessageService messageService,
-    IOptions<MessageQueuesConfiguration> messageQueuesConfiguration) : ControllerBase
+    IMessageQueue messageQueue) : ControllerBase
 {
     [HttpGet(Name = "GetPayments")]
     [SwaggerOperation(
@@ -60,7 +59,7 @@ public class GetPaymentController(
     public async Task<ActionResult> TestQueues()
     {
         await messageService.SendMessageAsync(
-            messageQueuesConfiguration.Value.OrderPaymentRequestQueue,
+            messageQueue.OrderPaymentRequestQueue(),
             new RequestPaymentRequest
             {
                 OrderId = Guid.NewGuid(),

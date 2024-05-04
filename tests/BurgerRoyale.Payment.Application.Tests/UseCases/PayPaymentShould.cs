@@ -3,12 +3,11 @@
 using BurgerRoyale.Payment.Application.Contracts.Validators;
 using BurgerRoyale.Payment.Application.Models;
 using BurgerRoyale.Payment.Application.UseCases;
-using BurgerRoyale.Payment.Domain.BackgroundMessage;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
+using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using BurgerRoyale.Payment.Domain.Contracts.Repositories;
 using BurgerRoyale.Payment.Domain.Entities;
 using BurgerRoyale.Payment.Domain.Enums;
-using Microsoft.Extensions.Options;
 using Moq;
 
 internal class PayPaymentShould
@@ -17,7 +16,7 @@ internal class PayPaymentShould
     
 	private Mock<IPaymentValidator> validatorMock;
 
-    private Mock<IOptions<MessageQueuesConfiguration>> messageQueueConfigMock;
+    private Mock<IMessageQueue> messageQueueMock;
     
 	private Mock<IMessageService> messageServiceMock;
     
@@ -30,19 +29,19 @@ internal class PayPaymentShould
 
         validatorMock = new Mock<IPaymentValidator>();
 
-		messageQueueConfigMock = new Mock<IOptions<MessageQueuesConfiguration>>();
+		messageQueueMock = new Mock<IMessageQueue>();
 
 		messageServiceMock = new Mock<IMessageService>();
 
         payPayment = new PayPayment(
 			repositoryMock.Object,
 			validatorMock.Object,
-            messageQueueConfigMock.Object,
+            messageQueueMock.Object,
             messageServiceMock.Object);
 
-        messageQueueConfigMock
-            .Setup(queue => queue.Value)
-            .Returns(new MessageQueuesConfiguration());
+        messageQueueMock
+            .Setup(queue => queue.OrderPaymentFeedbackQueue())
+            .Returns("");
     }
 
     [Test]
@@ -103,12 +102,9 @@ internal class PayPaymentShould
 
         string queueName = "sqs-order-payment-feedback";
 
-        messageQueueConfigMock
-            .Setup(queue => queue.Value)
-			.Returns(new MessageQueuesConfiguration
-			{
-				OrderPaymentFeedbackQueue = queueName
-            });
+        messageQueueMock
+			.Setup(queue => queue.OrderPaymentFeedbackQueue())
+			.Returns(queueName);
 
         #endregion
 

@@ -1,25 +1,34 @@
 ﻿using BurgerRoyale.Payment.Application.Contracts.UseCases;
 using BurgerRoyale.Payment.Application.Models;
-using BurgerRoyale.Payment.Domain.BackgroundMessage;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
-using Microsoft.Extensions.Options;
+using BurgerRoyale.Payment.Domain.Contracts.Queues;
 
 namespace BurgerRoyale.Payment.BackgroundService.Services;
 
 public class OrderCompletedBackgroundService : PaymentBackgroundService<RequestPaymentRequest>
 {
-    private readonly IRequestPayment requestPayment;
+    private readonly IRequestPayment _requestPayment;
 
     public OrderCompletedBackgroundService(
         IServiceScopeFactory serviceScopeFactory,
-        IOptions<MessageQueuesConfiguration> queuesConfiguration) :
-        base(serviceScopeFactory, queuesConfiguration.Value.OrderPaymentRequestQueue)
+        IServiceProvider serviceProvider) :
+        base(serviceScopeFactory, GetQueueName(serviceProvider))
     {
-        requestPayment = _serviceProvider.GetRequiredService<IRequestPayment>();
+        _requestPayment = _serviceProvider.GetRequiredService<IRequestPayment>();
+    }
+
+    private static string GetQueueName(IServiceProvider serviceProvider)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+
+            IMessageQueue messageQueue = scope.ServiceProvider.GetRequiredService<IMessageQueue>();
+            return messageQueue.OrderPaymentRequestQueue();
+        }
     }
 
     protected override async Task ProcessMessage(RequestPaymentRequest message)
     {
-        await requestPayment.RequestAsync(message);
+        await _requestPayment.RequestAsync(message);
     }
 }

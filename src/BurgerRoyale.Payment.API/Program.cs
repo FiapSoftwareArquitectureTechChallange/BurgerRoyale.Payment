@@ -1,6 +1,8 @@
 using BurgerRoyale.Payment.BackgroundService.Services;
 using BurgerRoyale.Payment.Domain.BackgroundMessage;
+using BurgerRoyale.Payment.Domain.Contracts.Queues;
 using BurgerRoyale.Payment.Infrastructure.Database.Models;
+using BurgerRoyale.Payment.Infrastructure.QueueConfiguration;
 using BurgerRoyale.Payment.IOC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,14 +23,9 @@ builder.Services.Configure<AWSConfiguration>
     options => builder.Configuration.GetSection("AWS").Bind(options)
 );
 
-builder.Services.Configure<MessageQueuesConfiguration>
-(
-    options => builder.Configuration.GetSection("MessageQueues").Bind(options)
-);
+builder.Services.AddDependencies();
 
 builder.Services.AddHostedService<OrderCompletedBackgroundService>();
-
-builder.Services.AddDependencies();
 
 var app = builder.Build();
 

@@ -1,7 +1,7 @@
 ﻿using BurgerRoyale.Payment.Domain.Contracts.DatabaseConfiguration;
 using Microsoft.Extensions.Configuration;
 
-namespace BurgerRoyale.Payment.Infrastructure.Database.Models;
+namespace BurgerRoyale.Payment.Infrastructure.Database.Config;
 
 public class MongoDBSettings(IConfiguration configuration) : IDatabaseConfiguration
 {

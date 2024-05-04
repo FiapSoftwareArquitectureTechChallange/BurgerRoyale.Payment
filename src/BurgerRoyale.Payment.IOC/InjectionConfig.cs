@@ -1,4 +1,5 @@
 ﻿using BurgerRoyale.Payment.Application.DependencyInjection;
+using BurgerRoyale.Payment.BackgroundService.DependencyInjection;
 using BurgerRoyale.Payment.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,5 +12,7 @@ public static class InjectionConfig
         services.AddApplicationDependencies();
 
         services.AddInfrastructureDependencies();
+
+        services.AddBackgroundServiceDependencies();
     }
 }

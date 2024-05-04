@@ -1,4 +1,3 @@
-using BurgerRoyale.Payment.BackgroundService.Services;
 using BurgerRoyale.Payment.IOC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +12,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDependencies();
-
-builder.Services.AddHostedService<OrderCompletedBackgroundService>();
 
 var app = builder.Build();
 

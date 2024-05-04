@@ -18,7 +18,7 @@ public class MessageQueuesConfiguration(IConfiguration configuration) : IMessage
 
     public string OrderPaymentRequestQueue()
     {
-        IConfigurationSection queueSettings = configuration.GetSection("MessageQueues");
+        IConfigurationSection queueSettings = GetQueueSection();
         return queueSettings.GetSection("OrderPaymentRequestQueue").Value!;
     }
 }

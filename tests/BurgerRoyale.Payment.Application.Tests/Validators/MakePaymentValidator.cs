@@ -8,17 +8,27 @@ public class MakePaymentValidator(IPaymentValidator validator) : IMakePaymentVal
 {
     public bool IsInvalid(Payment? payment, out NotificationModel response)
     {
-        if (validator.IsInvalid(payment, out response))
+        if (PaymentIsInvalid(payment, out response))
         {
             return true;
         }
 
-        if (payment.IsPaid())
+        if (PaymentHasAlreadyBeenPaid(payment!))
         {
             response.AddNotification("Payment", "The payment has already been paid.");
             return true;
         }
 
         return !response.IsValid;
+    }
+
+    private bool PaymentIsInvalid(Payment? payment, out NotificationModel response)
+    {
+        return validator.IsInvalid(payment, out response);
+    }
+
+    private static bool PaymentHasAlreadyBeenPaid(Payment payment)
+    {
+        return payment.IsPaid();
     }
 }

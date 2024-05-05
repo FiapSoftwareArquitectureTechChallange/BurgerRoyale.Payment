@@ -30,7 +30,15 @@ jobs:
 
     - name: Build
       run: dotnet build --no-restore
-
+   
+  Tests:
+   runs-on: ubuntu-latest
+   needs: build
+   
+   steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Domain Tests
       run: |
         cd tests

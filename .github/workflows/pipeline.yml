@@ -107,12 +107,9 @@ jobs:
     - name: Replace variables in Kubernetes manifest
       env:
         IMAGE_URI: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest
+    
+        CONNECTON_URI: ${{ secrets.PAYMENT_CONNECTION_URI }}
         
-        DB_ADDRESS: ${{ secrets.DB_ADDRESS }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-
         JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
         JWT_AUDIENCE: ${{ secrets.JWT_AUDIENCE }}
         JWT_SECRETKEY: ${{ secrets.JWT_SECRET_KEY }}
@@ -120,10 +117,7 @@ jobs:
         cd Kubernetes
         sed -i 's|${IMAGE_URI}|'"$IMAGE_URI"'|g' api-deployment.yaml
         
-        sed -i 's|${DB_ADDRESS}|'"$DB_ADDRESS"'|g' api-deployment.yaml
-        sed -i 's|${DB_NAME}|'"$DB_NAME"'|g' api-deployment.yaml
-        sed -i 's|${DB_USER}|'"$DB_USER"'|g' api-deployment.yaml
-        sed -i 's|${DB_PASSWORD}|'"$DB_PASSWORD"'|g' api-deployment.yaml
+        sed -i 's|${CONNECTION_URI}|'"$CONNECTON_URI"'|g' api-deployment.yaml
 
         sed -i 's|${JWT_ISSUER}|'"$JWT_ISSUER"'|g' api-deployment.yaml
         sed -i 's|${JWT_AUDIENCE}|'"$JWT_AUDIENCE"'|g' api-deployment.yaml

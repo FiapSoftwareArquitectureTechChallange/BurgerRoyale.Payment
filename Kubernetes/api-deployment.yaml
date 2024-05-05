@@ -23,7 +23,7 @@ spec:
             value: "Development"
           - name: ASPNETCORE_URLS
             value: http://*:5000
-          - name: ConnectionURI
+          - name: MongoDB__ConnectionURI
             value: ${CONNECTION_STRING_URI};
           - name: Jwt__Issuer
             value: ${JWT_ISSUER}

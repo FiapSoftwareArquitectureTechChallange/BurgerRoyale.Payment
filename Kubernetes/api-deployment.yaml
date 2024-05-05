@@ -21,7 +21,7 @@ spec:
             - name: ASPNETCORE_URLS
               value: http://*:5000
             - name: MongoDB__ConnectionURI
-              value: ${CONNECTION_URI};
+              value: ${CONNECTION_URI}
             - name: Jwt__Issuer
               value: ${JWT_ISSUER}
             - name: Jwt__Audience

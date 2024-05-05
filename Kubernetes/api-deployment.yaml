@@ -1,0 +1,47 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: burgerroyalepayment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: burgerroyalepayment
+  template:
+    metadata:
+      labels:
+        app: burgerroyalepayment
+    spec:
+      containers:
+      - name: burgerroyale
+        image: ${IMAGE_URI}
+        ports:
+          - containerPort: 5000
+            protocol: TCP
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ASPNETCORE_URLS
+            value: http://*:5000
+          - name: ConnectionURI
+            value: ${CONNECTION_STRING_URI};
+          - name: Jwt__Issuer
+            value: ${JWT_ISSUER}
+          - name: Jwt__Audience
+            value: ${JWT_AUDIENCE}
+          - name: Jwt__SecretKey
+            value: ${JWT_SECRETKEY}
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
+        volumes:
+        - name: tz-config
+          hostPath:
+            path: /usr/share/zoneinfo/America/Sao_Paulo

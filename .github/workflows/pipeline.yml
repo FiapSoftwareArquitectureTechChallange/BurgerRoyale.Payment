@@ -8,8 +8,8 @@ on:
     branches: [ "main", "develop"]
   
 env:
-  EKS_CLUSTER_NAME: burger-cluster-eks
-  ECR_REPOSITORY: burgerroyale-ecr
+  EKS_CLUSTER_NAME: burgerroyalepayment-cluster-eks
+  ECR_REPOSITORY: burgerroyalepayment-ecr
   AWS_REGION: us-east-1
 
 jobs:

@@ -13,7 +13,7 @@ spec:
         app: burgerroyalepayment
     spec:
       containers:
-      - name: burgerroyale
+      - name: burgerroyalepayment
         image: ${IMAGE_URI}
         ports:
           - containerPort: 5000

@@ -63,6 +63,10 @@ jobs:
 
     - name: App Settings Variable Substitution
       env:
+        ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+        SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+        REGION: ${{ env.AWS_REGION }}
         PAYMENT_DB_USER: ${{ secrets.PAYMENT_DB_USER }}
         PAYMENT_DB_PASSWORD: ${{ secrets.PAYMENT_DB_PASSWORD }}
         PAYMENT_DB_CLUSTER_ADDRESS: ${{ secrets.PAYMENT_DB_CLUSTER_ADDRESS }}
@@ -70,6 +74,11 @@ jobs:
       run: |
         cd src
         cd BurgerRoyale.Payment.API
+        sed -i 's|${ACCESS_KEY}|'"$ACCESS_KEY"'|g' appsettings.json
+        sed -i 's|${SECRET_KEY}|'"$SECRET_KEY"'|g' appsettings.json
+        sed -i 's|${SESSION_TOKEN}|'"$SESSION_TOKEN"'|g' appsettings.json
+        sed -i 's|${REGION}|'"$REGION"'|g' appsettings.json
+        
         sed -i 's|${PAYMENT_DB_USER}|'"$PAYMENT_DB_USER"'|g' appsettings.json
         sed -i 's|${PAYMENT_DB_PASSWORD}|'"$PAYMENT_DB_PASSWORD"'|g' appsettings.json
         sed -i 's|${PAYMENT_DB_CLUSTER_ADDRESS}|'"$PAYMENT_DB_CLUSTER_ADDRESS"'|g' appsettings.json

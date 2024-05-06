@@ -65,7 +65,7 @@ jobs:
       run: |
         cd tests
         cd BurgerRoyale.Payment.BehaviorTests
-        dotnet test
+        dotnet test /p:AppSettings:MongoDB:ConnectionURI="${{ secrets.PAYMENT_CONNECTION_URI }}"
         
   publishImage:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

@@ -64,6 +64,10 @@ jobs:
     - name: App Settings Variable Substitution
       run: |
         ls
+        cd src
+        ls
+        cd BurgerRoyale.Payment.API
+        ls
       
     - name: Behavior Tests
       run: |

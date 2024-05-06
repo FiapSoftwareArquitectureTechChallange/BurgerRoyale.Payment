@@ -11,6 +11,13 @@ env:
   EKS_CLUSTER_NAME: burgerroyalepayment-cluster-eks
   ECR_REPOSITORY: burgerroyalepayment-ecr
   AWS_REGION: us-east-1
+  ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  PAYMENT_DB_USER: ${{ secrets.PAYMENT_DB_USER }}
+  PAYMENT_DB_PASSWORD: ${{ secrets.PAYMENT_DB_PASSWORD }}
+  PAYMENT_DB_CLUSTER_ADDRESS: ${{ secrets.PAYMENT_DB_CLUSTER_ADDRESS }}
+  PAYMENT_DB_CLUSTER_NAME: ${{ secrets.PAYMENT_DB_CLUSTER_NAME }}
 
 jobs:
   Build:
@@ -61,29 +68,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: App Settings Variable Substitution
-      env:
-        ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-        SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-        REGION: ${{ env.AWS_REGION }}
-        PAYMENT_DB_USER: ${{ secrets.PAYMENT_DB_USER }}
-        PAYMENT_DB_PASSWORD: ${{ secrets.PAYMENT_DB_PASSWORD }}
-        PAYMENT_DB_CLUSTER_ADDRESS: ${{ secrets.PAYMENT_DB_CLUSTER_ADDRESS }}
-        PAYMENT_DB_CLUSTER_NAME: ${{ secrets.PAYMENT_DB_CLUSTER_NAME }}
+    - name: App Settings Variable Substitution        
       run: |
         cd src
         cd BurgerRoyale.Payment.API
         sed -i 's|${ACCESS_KEY}|'"$ACCESS_KEY"'|g' appsettings.json
         sed -i 's|${SECRET_KEY}|'"$SECRET_KEY"'|g' appsettings.json
         sed -i 's|${SESSION_TOKEN}|'"$SESSION_TOKEN"'|g' appsettings.json
-        sed -i 's|${REGION}|'"$REGION"'|g' appsettings.json
+        sed -i 's|${REGION}|'"$AWS_REGION"'|g' appsettings.json
         
         sed -i 's|${PAYMENT_DB_USER}|'"$PAYMENT_DB_USER"'|g' appsettings.json
         sed -i 's|${PAYMENT_DB_PASSWORD}|'"$PAYMENT_DB_PASSWORD"'|g' appsettings.json
         sed -i 's|${PAYMENT_DB_CLUSTER_ADDRESS}|'"$PAYMENT_DB_CLUSTER_ADDRESS"'|g' appsettings.json
         sed -i 's|${PAYMENT_DB_CLUSTER_NAME}|'"$PAYMENT_DB_CLUSTER_NAME"'|g' appsettings.json
-        cat appsettings.json
       
     - name: Behavior Tests
       run: |
@@ -157,7 +154,15 @@ jobs:
         cd Kubernetes
         sed -i 's|${IMAGE_URI}|'"$IMAGE_URI"'|g' api-deployment.yaml
         
-        sed -i 's|${CONNECTION_URI}|'"$CONNECTON_URI"'|g' api-deployment.yaml
+        sed -i 's|${ACCESS_KEY}|'"$ACCESS_KEY"'|g' api-deployment.yaml
+        sed -i 's|${SECRET_KEY}|'"$SECRET_KEY"'|g' api-deployment.yaml
+        sed -i 's|${SESSION_TOKEN}|'"$SESSION_TOKEN"'|g' api-deployment.yaml
+        sed -i 's|${REGION}|'"$AWS_REGION"'|g' api-deployment.yaml
+        
+        sed -i 's|${PAYMENT_DB_USER}|'"$PAYMENT_DB_USER"'|g' api-deployment.yaml
+        sed -i 's|${PAYMENT_DB_PASSWORD}|'"$PAYMENT_DB_PASSWORD"'|g' api-deployment.yaml
+        sed -i 's|${PAYMENT_DB_CLUSTER_ADDRESS}|'"$PAYMENT_DB_CLUSTER_ADDRESS"'|g' api-deployment.yaml
+        sed -i 's|${PAYMENT_DB_CLUSTER_NAME}|'"$PAYMENT_DB_CLUSTER_NAME"'|g' api-deployment.yaml
 
         sed -i 's|${JWT_ISSUER}|'"$JWT_ISSUER"'|g' api-deployment.yaml
         sed -i 's|${JWT_AUDIENCE}|'"$JWT_AUDIENCE"'|g' api-deployment.yaml

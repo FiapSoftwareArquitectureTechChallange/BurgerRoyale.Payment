@@ -11,7 +11,6 @@ env:
   EKS_CLUSTER_NAME: burgerroyalepayment-cluster-eks
   ECR_REPOSITORY: burgerroyalepayment-ecr
   AWS_REGION: us-east-1
-  PAYMENT_CONNECTION_URI: ${{ secrets.PAYMENT_CONNECTION_URI }}
 
 jobs:
   Build:
@@ -63,10 +62,18 @@ jobs:
       uses: actions/checkout@v4
 
     - name: App Settings Variable Substitution
+      env:
+        PAYMENT_DB_USER: ${{ secrets.PAYMENT_DB_USER }}
+        PAYMENT_DB_PASSWORD: ${{ secrets.PAYMENT_DB_PASSWORD }}
+        PAYMENT_DB_CLUSTER_ADDRESS: ${{ secrets.PAYMENT_DB_CLUSTER_ADDRESS }}
+        PAYMENT_DB_CLUSTER_NAME: ${{ secrets.PAYMENT_DB_CLUSTER_NAME }}
       run: |
         cd src
         cd BurgerRoyale.Payment.API
-        sed -i 's|${CONNECTION_URI}|'"$PAYMENT_CONNECTION_URI"'|g' appsettings.json
+        sed -i 's|${PAYMENT_DB_USER}|'"$PAYMENT_DB_USER"'|g' appsettings.json
+        sed -i 's|${PAYMENT_DB_PASSWORD}|'"$PAYMENT_DB_PASSWORD"'|g' appsettings.json
+        sed -i 's|${PAYMENT_DB_CLUSTER_ADDRESS}|'"$PAYMENT_DB_CLUSTER_ADDRESS"'|g' appsettings.json
+        sed -i 's|${PAYMENT_DB_CLUSTER_NAME}|'"$PAYMENT_DB_CLUSTER_NAME"'|g' appsettings.json
         cat appsettings.json
       
     - name: Behavior Tests

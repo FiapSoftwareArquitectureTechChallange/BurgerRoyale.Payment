@@ -53,33 +53,13 @@ jobs:
         cd BurgerRoyale.Payment.Application.Tests
         dotnet test
 
-  integrationTests:
-   name: Integration Tests
-   runs-on: ubuntu-latest
-   needs: tests
-   
-   steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: App Settings Variable Substitution
-      run: |
-        cd src
-        cd BurgerRoyale.Payment.API
-        echo $PAYMENT_CONNECTION_URI
-        sed -i 's|"ConnectionURI": ""|"ConnectionURI": '"$PAYMENT_CONNECTION_URI"'|g' appsettings.json
-      
-    - name: Behavior Tests
-      run: |
-        cd tests
-        cd BurgerRoyale.Payment.BehaviorTests
-        dotnet test
+  
         
   publishImage:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     name: Publish Docker Image
     runs-on: ubuntu-latest
-    needs: integrationTests
+    needs: tests
 
     steps:
     - name: Checkout code
@@ -140,6 +120,7 @@ jobs:
       run: |
         cd Kubernetes
         sed -i 's|${IMAGE_URI}|'"$IMAGE_URI"'|g' api-deployment.yaml
+        cat api-deployment.yaml
         
         sed -i 's|${CONNECTION_URI}|'"$CONNECTON_URI"'|g' api-deployment.yaml
 

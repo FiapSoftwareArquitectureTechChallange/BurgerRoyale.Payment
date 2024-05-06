@@ -20,8 +20,16 @@ spec:
               value: "Development"
             - name: ASPNETCORE_URLS
               value: http://*:5000
+            - name: AWS__AccessKey
+              value: ${ACCESS_KEY}
+            - name: AWS__SecretKey
+              value: ${SECRET_KEY}
+            - name: AWS__SessionToken
+              value: ${SESSION_TOKEN}
+            - name: AWS__Region
+              value: ${REGION}
             - name: MongoDB__ConnectionURI
-              value: ${CONNECTION_URI}
+              value: mongodb+srv://${PAYMENT_DB_USER}:${PAYMENT_DB_PASSWORD}@${PAYMENT_DB_CLUSTER_ADDRESS}/?retryWrites=true&w=majority&appName=${PAYMENT_DB_CLUSTER_NAME}
             - name: Jwt__Issuer
               value: ${JWT_ISSUER}
             - name: Jwt__Audience

@@ -67,7 +67,7 @@ jobs:
       run: |
         cd src
         cd BurgerRoyale.Payment.API
-        sed -i 's|"ConnectionURI": ""|'"ConnectionURI": "$PAYMENT_CONNECTION_URI"'|g' api-deployment.yaml
+        sed -i 's|"ConnectionURI": ""|"ConnectionURI": '"$PAYMENT_CONNECTION_URI"'|g' appsettings.json
       
     - name: Behavior Tests
       run: |

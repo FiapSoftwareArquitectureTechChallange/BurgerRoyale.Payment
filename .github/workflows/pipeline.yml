@@ -62,18 +62,18 @@ jobs:
       uses: actions/checkout@v4
 
     - name: App Settings Variable Substitution
+      env:
+        PAYMENT_CONNECTION_URI: ${{ secrets.PAYMENT_CONNECTION_URI }}
       run: |
-        ls
         cd src
-        ls
         cd BurgerRoyale.Payment.API
-        ls
+        sed -i 's|"ConnectionURI": ""|'"ConnectionURI": "$PAYMENT_CONNECTION_URI"'|g' api-deployment.yaml
       
     - name: Behavior Tests
       run: |
         cd tests
         cd BurgerRoyale.Payment.BehaviorTests
-        dotnet test /p:AppSettings:MongoDB:ConnectionURI="${{ secrets.PAYMENT_CONNECTION_URI }}"
+        dotnet test
         
   publishImage:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

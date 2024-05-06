@@ -11,6 +11,7 @@ env:
   EKS_CLUSTER_NAME: burgerroyalepayment-cluster-eks
   ECR_REPOSITORY: burgerroyalepayment-ecr
   AWS_REGION: us-east-1
+  PAYMENT_CONNECTION_URI: ${{ secrets.PAYMENT_CONNECTION_URI }}
 
 jobs:
   Build:
@@ -62,14 +63,11 @@ jobs:
       uses: actions/checkout@v4
 
     - name: App Settings Variable Substitution
-      env:
-        PAYMENT_CONNECTION_URI: ${{ secrets.PAYMENT_CONNECTION_URI }}
       run: |
         cd src
         cd BurgerRoyale.Payment.API
         echo $PAYMENT_CONNECTION_URI
         sed -i 's|"ConnectionURI": ""|"ConnectionURI": '"$PAYMENT_CONNECTION_URI"'|g' appsettings.json
-        cat appsettings.json
       
     - name: Behavior Tests
       run: |

@@ -31,7 +31,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
    
-  Tests:
+  tests:
+   name: Unit Tests
    runs-on: ubuntu-latest
    needs: Build
    
@@ -50,12 +51,27 @@ jobs:
         cd tests
         cd BurgerRoyale.Payment.Application.Tests
         dotnet test
+
+  integrationTests:
+   name: Integration Tests
+   runs-on: ubuntu-latest
+   needs: tests
+   
+   steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Behavior Tests
+      run: |
+        cd tests
+        cd BurgerRoyale.Payment.BehaviorTests
+        dotnet test
         
   publishImage:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     name: Publish Docker Image
     runs-on: ubuntu-latest
-    needs: Tests
+    needs: integrationTests
 
     steps:
     - name: Checkout code

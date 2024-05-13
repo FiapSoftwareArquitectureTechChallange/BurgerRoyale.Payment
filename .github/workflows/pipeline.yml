@@ -122,7 +122,8 @@ jobs:
         run: |
           dotnet-sonarscanner begin /k:"BurgerRoyale.Payment" /o:"3soat-burger-royale" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.exclusions=**/Program.cs
           dotnet build --configuration Release
-          dotnet-coverage collect 'dotnet test .\tests\BurgerRoyale.Payment.Application.Tests\BurgerRoyale.Payment.Application.Tests.csproj .\tests\BurgerRoyale.Payment.Domain.Tests\BurgerRoyale.Payment.Domain.Tests.csproj' -f xml -o 'coverage.xml'
+          dotnet-coverage collect 'dotnet test .\tests\BurgerRoyale.Payment.Application.Tests\BurgerRoyale.Payment.Application.Tests.csproj' -f xml -o 'coverage.xml'
+          dotnet-coverage collect 'dotnet test .\tests\BurgerRoyale.Payment.Domain.Tests\BurgerRoyale.Payment.Domain.Tests.csproj' -f xml -o 'coverage.xml'
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         
   publishImage:

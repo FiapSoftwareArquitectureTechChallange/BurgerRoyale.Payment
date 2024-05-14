@@ -1,37 +1,26 @@
-﻿using Amazon;
-using Amazon.Runtime;
-using Amazon.SQS;
+﻿using Amazon.SQS;
 using Amazon.SQS.Model;
-using BurgerRoyale.Payment.Domain.Contracts.CredentialConfigurations;
 using BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
+using BurgerRoyale.Payment.Domain.Exceptions;
 using System.Text.Json;
 
 namespace BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
 
-public class AWSSQSService : IMessageService
+public class AWSSQSService(IAmazonSQS sqsClient) : IMessageService
 {
-    private readonly ICredentialConfiguration _credentialConfiguration;
-    private readonly IAmazonSQS _amazonSQSClient;
-
-    public AWSSQSService(ICredentialConfiguration credentialConfiguration)
-    {
-        _credentialConfiguration = credentialConfiguration;
-        _amazonSQSClient = CreateClient();
-    }
-
     public async Task<string> SendMessageAsync(string queueName, string message)
     {
         try
         {
             string queueUrl = await GetQueueUrl(queueName);
 
-            var response = await _amazonSQSClient.SendMessageAsync(queueUrl, message);
+            var response = await sqsClient.SendMessageAsync(queueUrl, message);
 
             return response.MessageId;
         }
         catch (Exception exception)
         {
-            throw new Exception(
+            throw new IntegrationException(
                 $"Error sending messages to AWS SQS Queue ({queueName})",
                 exception
             );
@@ -57,49 +46,33 @@ public class AWSSQSService : IMessageService
                 MaxNumberOfMessages = maxNumberOfMessages ?? 10
             };
 
-            var response = await _amazonSQSClient.ReceiveMessageAsync(request);
+            var response = await sqsClient.ReceiveMessageAsync(request);
 
-            List<TResponse> messages = new();
+            List<TResponse> messages = [];
 
             foreach (var message in response.Messages)
             {
                 messages.Add(JsonSerializer.Deserialize<TResponse>(message.Body)!);
 
-                await _amazonSQSClient.DeleteMessageAsync(queueUrl, message.ReceiptHandle);
+                await sqsClient.DeleteMessageAsync(queueUrl, message.ReceiptHandle);
             }
 
             return messages;
         }
         catch (Exception exception)
         {
-            throw new Exception(
+            throw new IntegrationException(
                 $"Error reading messages from AWS SQS Queue ({queueName})",
                 exception
             );
         }
     }
 
-    private IAmazonSQS CreateClient()
-    {
-        var credentials = new SessionAWSCredentials(
-            _credentialConfiguration.AccessKey(),
-            _credentialConfiguration.SecretKey(),
-            _credentialConfiguration.SessionToken()
-        );
-
-        var region = RegionEndpoint.GetBySystemName(_credentialConfiguration.Region());
-
-        return new AmazonSQSClient(
-            credentials,
-            region
-        );
-    }
-
     private async Task<string> GetQueueUrl(string queueName)
     {
         try
         {
-            var response = await _amazonSQSClient.GetQueueUrlAsync(
+            var response = await sqsClient.GetQueueUrlAsync(
                 new GetQueueUrlRequest(queueName)
             );
 
@@ -113,7 +86,7 @@ public class AWSSQSService : IMessageService
 
     private async Task<string> CreateQueue(string queueName)
     {
-        var response = await _amazonSQSClient.CreateQueueAsync(
+        var response = await sqsClient.CreateQueueAsync(
             new CreateQueueRequest(queueName)
         );
 

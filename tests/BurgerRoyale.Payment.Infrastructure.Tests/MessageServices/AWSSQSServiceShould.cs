@@ -1,5 +1,6 @@
 ﻿using Amazon.SQS;
 using Amazon.SQS.Model;
+using BurgerRoyale.Payment.Domain.Exceptions;
 using BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
 using Moq;
 
@@ -70,6 +71,49 @@ internal class AWSSQSServiceShould
 
         Assert.That(response, Is.Not.Null);
         Assert.That(response, Is.EqualTo(messageId));
+
+        #endregion
+    }
+    
+    [Test]
+    public async Task Throw_Integration_Exception_When_Error()
+    {
+        #region Arrange(Given)
+
+        string queueName = "myqueue";
+        string message = "my Message";
+
+        awsClientMock
+            .Setup(x => x.GetQueueUrlAsync(
+                It.IsAny<GetQueueUrlRequest>(),
+                It.IsAny<CancellationToken>()
+            ))
+            .ThrowsAsync(new QueueDoesNotExistException("Exception message"));
+
+        #endregion
+
+        #region Act(When)
+
+        Exception? threwException = null;
+
+        try
+        {
+            await service.SendMessageAsync(queueName, message);
+        }
+        catch(Exception ex) 
+        {
+            threwException = ex;
+        }
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.That(threwException, Is.Not.Null);
+        Assert.That(threwException, Is.InstanceOf<IntegrationException>());
+
+        string expectedExceptionMessage = $"Error sending messages to AWS SQS Queue ({queueName})";
+        Assert.That(threwException.Message, Is.EqualTo(expectedExceptionMessage));
 
         #endregion
     }

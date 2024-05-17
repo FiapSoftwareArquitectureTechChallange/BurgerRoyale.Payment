@@ -433,7 +433,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "value": {
+          "amount": {
             "type": "number",
             "format": "double"
           },

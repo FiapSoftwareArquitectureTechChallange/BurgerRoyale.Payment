@@ -24,7 +24,7 @@ public class RequestPaymentStepDefinitions(
         var request = new RequestPaymentRequest
         {
             OrderId = orderId,
-            Value = double.Parse(orderPrice.ToString())
+            Amount = double.Parse(orderPrice.ToString())
         };
 
         RequestPaymentResponse response = await client.RequestPaymentAsync(request);

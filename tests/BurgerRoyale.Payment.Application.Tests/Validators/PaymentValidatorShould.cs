@@ -35,7 +35,7 @@ internal class PaymentValidatorShould
 
         Assert.That(isInvalid, Is.True);
 
-        Assert.That(response.Notifications.Count, Is.EqualTo(1));
+        Assert.That(response.Notifications, Has.Count.EqualTo(1));
 
         Assert.Multiple(() =>
         {
@@ -68,7 +68,7 @@ internal class PaymentValidatorShould
 
         Assert.That(isInvalid, Is.True);
 
-        Assert.That(response.Notifications.Count, Is.EqualTo(1));
+        Assert.That(response.Notifications, Has.Count.EqualTo(1));
 
         #endregion
     }

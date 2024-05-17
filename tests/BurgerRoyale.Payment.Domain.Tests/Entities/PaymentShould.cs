@@ -30,7 +30,7 @@ internal class PaymentShould
         {
             Assert.That(payment.IsValid, Is.False);
 
-            Assert.That(payment.Notifications.Count, Is.EqualTo(1));
+            Assert.That(payment.Notifications, Has.Count.EqualTo(1));
         });
 
         Assert.Multiple(() =>
@@ -67,7 +67,7 @@ internal class PaymentShould
         {
             Assert.That(payment.IsValid, Is.False);
 
-            Assert.That(payment.Notifications.Count, Is.EqualTo(1));
+            Assert.That(payment.Notifications, Has.Count.EqualTo(1));
         });
 
         Assert.Multiple(() =>
@@ -104,7 +104,7 @@ internal class PaymentShould
         {
             Assert.That(payment.IsValid, Is.False);
 
-            Assert.That(payment.Notifications.Count, Is.EqualTo(1));
+            Assert.That(payment.Notifications, Has.Count.EqualTo(1));
         });
 
         Assert.Multiple(() =>
@@ -141,7 +141,7 @@ internal class PaymentShould
         {
             Assert.That(payment.IsValid, Is.False);
 
-            Assert.That(payment.Notifications.Count, Is.EqualTo(1));
+            Assert.That(payment.Notifications, Has.Count.EqualTo(1));
         });
 
         Assert.Multiple(() =>

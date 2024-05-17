@@ -11,7 +11,7 @@ public abstract class PaymentBackgroundService<TMessage> : BackgroundService, IH
 
     protected IServiceProvider _serviceProvider;
 
-    public PaymentBackgroundService(IServiceScopeFactory serviceScopeFactory, string queueName)
+    protected PaymentBackgroundService(IServiceScopeFactory serviceScopeFactory, string queueName)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _queueName = queueName;

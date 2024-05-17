@@ -2,7 +2,6 @@
 using Amazon.SQS.Model;
 using BurgerRoyale.Payment.Domain.Exceptions;
 using BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
 using System.Text.Json;
 

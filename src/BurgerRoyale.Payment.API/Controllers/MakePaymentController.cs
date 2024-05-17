@@ -8,7 +8,7 @@ namespace BurgerRoyale.Payment.API.Controllers;
 
 [Route("api/payments")]
 [ApiController]
-public class MakePaymentController(IPayPayment payment) : Controller
+public class MakePaymentController(IPayPayment payment) : ControllerBase
 {
     [HttpPost("{id:Guid}/pay", Name = "Pay")]
     [SwaggerOperation(

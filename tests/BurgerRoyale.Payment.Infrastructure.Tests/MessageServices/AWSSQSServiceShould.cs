@@ -117,4 +117,59 @@ internal class AWSSQSServiceShould
 
         #endregion
     }
+    
+    [Test]
+    public async Task Send_Serialized_Message()
+    {
+        #region Arrange(Given)
+
+        string queueName = "myqueue";
+        string queueUrl = $"http://localhost/{queueName}";
+
+        var messageBody = new { MessageProperty = "Value" };
+        string messageId = Guid.NewGuid().ToString();
+
+        awsClientMock
+            .Setup(x => x.GetQueueUrlAsync(
+                It.IsAny<GetQueueUrlRequest>(),
+                It.IsAny<CancellationToken>()
+            ))
+            .ReturnsAsync(new GetQueueUrlResponse
+            {
+                QueueUrl = queueUrl,
+            });
+
+        awsClientMock
+            .Setup(x => x.SendMessageAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()
+            ))
+            .ReturnsAsync(new SendMessageResponse()
+            {
+                MessageId = messageId
+            });
+
+        #endregion
+
+        #region Act(When)
+
+        await service.SendMessageAsync(queueName, messageBody);
+
+        #endregion
+
+        #region Assert(Then)
+
+        awsClientMock
+            .Verify(
+                x => x.SendMessageAsync(
+                    queueUrl,
+                    It.Is<string>(m => m.Contains("MessageProperty")),
+                    It.IsAny<CancellationToken>()
+                ),
+                Times.Once
+            );
+
+        #endregion
+    }
 }

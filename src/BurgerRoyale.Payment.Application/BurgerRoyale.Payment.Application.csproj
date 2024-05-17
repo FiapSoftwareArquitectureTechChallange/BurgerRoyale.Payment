@@ -15,4 +15,10 @@
     <ProjectReference Include="..\BurgerRoyale.Payment.Domain\BurgerRoyale.Payment.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <SonarQubeSetting Include="sonar.coverage.exclusions">
+	  <Value>DependencyInjection/*, Contracts/**</Value>
+	</SonarQubeSetting>
+  </ItemGroup>
+	
 </Project>

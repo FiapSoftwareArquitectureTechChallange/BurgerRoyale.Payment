@@ -59,6 +59,12 @@ jobs:
         cd BurgerRoyale.Payment.Application.Tests
         dotnet test
 
+    - name: Infrastructure Tests
+      run: |
+        cd tests
+        cd BurgerRoyale.Payment.Infrastructure.Tests
+        dotnet test
+
   integrationTests:
    name: Integration Tests
    runs-on: ubuntu-latest
@@ -124,6 +130,7 @@ jobs:
           dotnet build --configuration Release
           dotnet-coverage collect 'dotnet test .\tests\BurgerRoyale.Payment.Application.Tests\BurgerRoyale.Payment.Application.Tests.csproj' -f xml -o 'coverage-application.xml'
           dotnet-coverage collect 'dotnet test .\tests\BurgerRoyale.Payment.Domain.Tests\BurgerRoyale.Payment.Domain.Tests.csproj' -f xml -o 'coverage-domain.xml'
+          dotnet-coverage collect 'dotnet test .\tests\BurgerRoyale.Payment.Infrastructure.Tests\BurgerRoyale.Payment.Infrastructure.Tests.csproj' -f xml -o 'coverage-domain.xml'
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
         
   publishImage:

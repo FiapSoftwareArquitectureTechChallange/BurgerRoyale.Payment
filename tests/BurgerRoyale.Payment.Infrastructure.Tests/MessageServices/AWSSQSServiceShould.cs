@@ -2,6 +2,7 @@
 using Amazon.SQS.Model;
 using BurgerRoyale.Payment.Domain.Exceptions;
 using BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
 
 namespace BurgerRoyale.Payment.Infrastructure.Tests.MessageServices;
@@ -169,6 +170,48 @@ internal class AWSSQSServiceShould
                 ),
                 Times.Once
             );
+
+        #endregion
+    }
+    
+    [Test]
+    public async Task Throw_Integration_Exception_When_Error_Reading_Message()
+    {
+        #region Arrange(Given)
+
+        string queueName = "myqueue";
+
+        awsClientMock
+            .Setup(x => x.GetQueueUrlAsync(
+                It.IsAny<GetQueueUrlRequest>(),
+                It.IsAny<CancellationToken>()
+            ))
+            .ThrowsAsync(new Exception("Exception message"));
+
+        #endregion
+
+        #region Act(When)
+
+        Exception? threwException = null;
+
+        try
+        {
+            await service.ReadMessagesAsync<string>(queueName, 10);
+        }
+        catch (Exception ex)
+        {
+            threwException = ex;
+        }
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.That(threwException, Is.Not.Null);
+        Assert.That(threwException, Is.InstanceOf<IntegrationException>());
+
+        string expectedExceptionMessage = $"Error reading messages from AWS SQS Queue ({queueName})";
+        Assert.That(threwException.Message, Is.EqualTo(expectedExceptionMessage));
 
         #endregion
     }

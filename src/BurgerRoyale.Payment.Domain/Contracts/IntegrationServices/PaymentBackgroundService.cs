@@ -21,11 +21,11 @@ public abstract class PaymentBackgroundService<TMessage> : BackgroundService, IH
             .ServiceProvider;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         IMessageService _messageService = _serviceProvider.GetRequiredService<IMessageService>();
 
-        while (!cancellationToken.IsCancellationRequested)
+        while (!stoppingToken.IsCancellationRequested)
         {
             var messages = await _messageService.ReadMessagesAsync<TMessage>(_queueName, 10);
 
@@ -38,7 +38,7 @@ public abstract class PaymentBackgroundService<TMessage> : BackgroundService, IH
             }
             else
             {
-                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
             }
         }
     }

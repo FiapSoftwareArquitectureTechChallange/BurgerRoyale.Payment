@@ -5,18 +5,15 @@ namespace BurgerRoyale.Payment.Domain.Contracts.IntegrationServices;
 
 public abstract class PaymentBackgroundService<TMessage> : BackgroundService, IHostedService
 {
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-
     private readonly string _queueName;
 
     protected IServiceProvider _serviceProvider;
 
     protected PaymentBackgroundService(IServiceScopeFactory serviceScopeFactory, string queueName)
     {
-        _serviceScopeFactory = serviceScopeFactory;
         _queueName = queueName;
 
-        _serviceProvider = _serviceScopeFactory
+        _serviceProvider = serviceScopeFactory
             .CreateScope()
             .ServiceProvider;
     }

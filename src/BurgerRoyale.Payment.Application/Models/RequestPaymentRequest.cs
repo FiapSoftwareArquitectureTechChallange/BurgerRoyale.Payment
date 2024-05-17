@@ -4,7 +4,7 @@ public class RequestPaymentRequest
 {
     public Guid OrderId { get; set; }
 
-    public decimal Value { get; set; }
+    public decimal Amount { get; set; }
 
     public Guid? UserId { get; set; }
 }

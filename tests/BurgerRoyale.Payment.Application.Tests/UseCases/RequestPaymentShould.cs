@@ -26,7 +26,7 @@ internal class RequestPaymentShould
         request = new RequestPaymentRequest
         {
             OrderId = Guid.NewGuid(),
-            Value = 10,
+            Amount = 10,
         };
     }
 
@@ -41,7 +41,7 @@ internal class RequestPaymentShould
 
 		decimal value = 100;
 
-        request.Value = value;
+        request.Amount = value;
 
         #endregion
 
@@ -100,7 +100,7 @@ internal class RequestPaymentShould
 
         decimal invalidValue = -10;
 
-        request.Value = invalidValue;
+        request.Amount = invalidValue;
 
         #endregion
 

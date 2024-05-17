@@ -27,7 +27,7 @@ public class RequestPayment(IPaymentRepository repository) : IRequestPayment
         return new Payment(
             request.OrderId,
             PaymentStatus.Pending,
-            request.Value);
+            request.Amount);
     }
 
     private static bool PaymentIsInvalid(Payment payment)

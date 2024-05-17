@@ -4,6 +4,7 @@ using BurgerRoyale.Payment.Domain.Exceptions;
 using BurgerRoyale.Payment.Infrastructure.BackgroundMessage;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
+using System.Text.Json;
 
 namespace BurgerRoyale.Payment.Infrastructure.Tests.MessageServices;
 
@@ -169,6 +170,80 @@ internal class AWSSQSServiceShould
                     It.IsAny<CancellationToken>()
                 ),
                 Times.Once
+            );
+
+        #endregion
+    }
+    
+    [Test]
+    public async Task Read_Message()
+    {
+        #region Arrange(Given)
+
+        string queueName = "myqueue";
+        string queueUrl = $"http://localhost/{queueName}";
+
+        awsClientMock
+            .Setup(x => x.GetQueueUrlAsync(
+                It.IsAny<GetQueueUrlRequest>(),
+                It.IsAny<CancellationToken>()
+            ))
+            .ReturnsAsync(new GetQueueUrlResponse
+            {
+                QueueUrl = queueUrl,
+            });
+
+        awsClientMock
+            .Setup(
+                x => x.ReceiveMessageAsync(
+                    It.IsAny<ReceiveMessageRequest>(),
+                    It.IsAny<CancellationToken>()
+                )
+            )
+            .ReturnsAsync(new ReceiveMessageResponse()
+            {
+                Messages = [
+                    new() { Body = JsonSerializer.Serialize(new { MessageProperty = "Message 1" }) },
+                    new() { Body = JsonSerializer.Serialize(new { MessageProperty = "Message 2" }) },
+                    new() { Body = JsonSerializer.Serialize(new { MessageProperty = "Message 3" }) }
+                ]
+            });
+
+        #endregion
+
+        #region Act(When)
+
+        IEnumerable<dynamic> messages = await service.ReadMessagesAsync<dynamic>(queueName, null);
+
+        #endregion
+
+        #region Assert(Then)
+
+        Assert.That(messages, Is.Not.Null);
+        Assert.That(messages, Is.Not.Empty);
+        
+        Assert.That(messages.Count(), Is.EqualTo(3));
+
+        awsClientMock
+            .Verify(
+                x => x.ReceiveMessageAsync(
+                    It.Is<ReceiveMessageRequest>(r =>
+                        r.QueueUrl == queueUrl
+                        && r.MaxNumberOfMessages == 10
+                    ),
+                    It.IsAny<CancellationToken>()
+                ),
+                Times.Once
+            );
+
+        awsClientMock
+            .Verify(
+                x => x.DeleteMessageAsync(
+                    queueUrl,
+                    It.IsAny<string>(),
+                    It.IsAny<CancellationToken>()
+                ),
+                Times.Exactly(3)
             );
 
         #endregion

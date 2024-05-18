@@ -8,8 +8,8 @@ on:
     branches: [ "main", "develop"]
   
 env:
-  EKS_CLUSTER_NAME: burger-royale-payment-k8s
-  ECR_REPOSITORY: burger-royale-payment-container
+  EKS_CLUSTER_NAME: burger-cluster-eks
+  ECR_REPOSITORY: burgerroyale-payment-ecr
   AWS_REGION: us-east-1
   ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

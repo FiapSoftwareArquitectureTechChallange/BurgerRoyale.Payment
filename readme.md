@@ -2,6 +2,13 @@
 
 Esta solução foi desenvolvida como uma API a ser utilizada na gestão de pagamentos de pedidos.
 
+# Funcionalidades
+
+1. Recebe uma requisição de pagamentos através de uma fila.
+2. Criar o registro de solitação de pagamento no banco
+3. Recebe a confirmação de pagamento através de um endpoint
+4. Notifica os microserviços interessados através de uma fila que o pagamento foi realizado com sucesso. 
+
 # Kubernetes Deployment Scripts
 
 Este repositório contém scripts para implantar recursos no Kubernetes usando o Docker Desktop.

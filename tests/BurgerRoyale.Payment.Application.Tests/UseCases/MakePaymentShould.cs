@@ -44,8 +44,9 @@ internal class MakePaymentShould
             .Returns("");
     }
 
-    [Test]
-    public async Task Pay()
+    [TestCase(true, PaymentStatus.Paid)]
+    [TestCase(false, PaymentStatus.Rejected)]
+    public async Task ProcessPayment(bool withSuccess, PaymentStatus expectedStatus)
     {
 		#region Arrange(Given)
 
@@ -65,7 +66,7 @@ internal class MakePaymentShould
 
 		#region Act(When)
 
-		PayPaymentResponse response = await payPayment.PayAsync(paymentId);
+		PayPaymentResponse response = await payPayment.ProcessPaymentAsync(paymentId, withSuccess);
 
 		#endregion
 
@@ -73,7 +74,7 @@ internal class MakePaymentShould
 
 		Assert.That(response, Is.Not.Null);
 
-		Assert.That(payment.Status, Is.EqualTo(PaymentStatus.Paid));
+		Assert.That(payment.Status, Is.EqualTo(expectedStatus));
 
 		repositoryMock
 			.Verify(repository => repository.Update(payment), 
@@ -81,9 +82,10 @@ internal class MakePaymentShould
 
         #endregion
     }
-	
-	[Test]
-    public async Task Send_Order_Feedback_When_Pay()
+
+    [TestCase(true)]
+    [TestCase(false)]
+    public async Task Send_Order_Feedback_When_Pay(bool processedWithSuccess)
     {
 		#region Arrange(Given)
 
@@ -110,7 +112,7 @@ internal class MakePaymentShould
 
         #region Act(When)
 
-        await payPayment.PayAsync(paymentId);
+        await payPayment.ProcessPaymentAsync(paymentId, processedWithSuccess);
 
 		#endregion
 
@@ -121,7 +123,7 @@ internal class MakePaymentShould
 				queueName, 
 				It.Is<PaymentFeedback>(model => 
 					model.OrderId == payment.OrderId &&
-					model.ProcessedSuccessfully == true)), 
+					model.ProcessedSuccessfully == processedWithSuccess)), 
 			Times.Once);
 
         #endregion
@@ -147,7 +149,7 @@ internal class MakePaymentShould
 
         #region Act(When)
 
-        PayPaymentResponse response = await payPayment.PayAsync(paymentId);
+        PayPaymentResponse response = await payPayment.ProcessPaymentAsync(paymentId, true);
 
 		#endregion
 

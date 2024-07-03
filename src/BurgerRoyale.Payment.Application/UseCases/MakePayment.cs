@@ -13,9 +13,9 @@ public class MakePayment(
     IPaymentRepository repository,
     IMakePaymentValidator validator,
     IMessageQueue messageQueue,
-    IMessageService messageService) : IPayPayment
+    IMessageService messageService) : IMakePayment
 {
-    public async Task<PayPaymentResponse> PayAsync(Guid paymentId)
+    public async Task<PayPaymentResponse> ProcessPaymentAsync(Guid paymentId, bool withSuccess)
     {
         Payment? payment = await GetPayment(paymentId);
 
@@ -24,7 +24,10 @@ public class MakePayment(
             return invalidResponse.ConvertTo<PayPaymentResponse>();
         }
 
-        Pay(payment!);
+        if (withSuccess)
+            Pay(payment!);
+        else
+            Reject(payment!);        
 
         Update(payment!);
 
@@ -48,6 +51,11 @@ public class MakePayment(
         payment.Pay();
     }
 
+    private static void Reject(Payment payment)
+    {
+        payment.Reject();
+    }
+
     private void Update(Payment payment)
     {
         repository.Update(payment);
@@ -58,7 +66,7 @@ public class MakePayment(
         var model = new PaymentFeedback
         {
             OrderId = payment.OrderId,
-            ProcessedSuccessfully = true
+            ProcessedSuccessfully = payment.IsPaid()
         };
 
         await messageService.SendMessageAsync(

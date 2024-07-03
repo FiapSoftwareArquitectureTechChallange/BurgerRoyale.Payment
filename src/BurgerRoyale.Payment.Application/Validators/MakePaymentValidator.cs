@@ -13,9 +13,9 @@ public class MakePaymentValidator(IPaymentValidator validator) : IMakePaymentVal
             return true;
         }
 
-        if (PaymentHasAlreadyBeenPaid(payment!))
+        if (!PaymentIsPending(payment!))
         {
-            response.AddNotification("Payment", "The payment has already been paid.");
+            response.AddNotification("Payment", "The payment is not pending.");
             return true;
         }
 
@@ -27,8 +27,8 @@ public class MakePaymentValidator(IPaymentValidator validator) : IMakePaymentVal
         return validator.IsInvalid(payment, out response);
     }
 
-    private static bool PaymentHasAlreadyBeenPaid(Payment payment)
+    private static bool PaymentIsPending(Payment payment)
     {
-        return payment.IsPaid();
+        return payment.IsPending();
     }
 }

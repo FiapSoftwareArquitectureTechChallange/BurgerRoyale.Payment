@@ -2,7 +2,7 @@
 
 namespace BurgerRoyale.Payment.Application.Contracts.UseCases;
 
-public interface IPayPayment
+public interface IMakePayment
 {
-    Task<PayPaymentResponse> PayAsync(Guid paymentId);
+    Task<PayPaymentResponse> ProcessPaymentAsync(Guid paymentId, bool withSuccess);
 }

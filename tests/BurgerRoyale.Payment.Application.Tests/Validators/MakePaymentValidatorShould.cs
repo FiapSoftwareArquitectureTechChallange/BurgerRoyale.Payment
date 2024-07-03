@@ -54,7 +54,7 @@ internal class MakePaymentValidatorShould
         Assert.Multiple(() =>
         {
             Assert.That(response.Notifications.First().Key, Is.EqualTo("Payment"));
-            Assert.That(response.Notifications.First().Message, Is.EqualTo("The payment has already been paid."));
+            Assert.That(response.Notifications.First().Message, Is.EqualTo("The payment is not pending."));
         });
 
         #endregion

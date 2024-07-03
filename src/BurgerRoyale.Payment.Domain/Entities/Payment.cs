@@ -79,9 +79,17 @@ public class Payment : Notifiable<Notification>, IEntityBase
     {
         Status = PaymentStatus.Paid;
     }
+    public void Reject()
+    {
+        Status = PaymentStatus.Rejected;
+    }
 
     public bool IsPaid()
     {
         return Status == PaymentStatus.Paid;
+    }
+    public bool IsPending()
+    {
+        return Status == PaymentStatus.Pending;
     }
 }
